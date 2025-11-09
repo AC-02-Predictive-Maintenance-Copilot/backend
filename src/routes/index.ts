@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import machineRouter from '../model/machine/machine.route.js';
+import machineRouter from '../model/machine/machine.route';
 
 const router = Router();
 
