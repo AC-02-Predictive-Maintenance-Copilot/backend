@@ -9,7 +9,15 @@ datasource db {
 
 model Machine {
   id   String @id @default(uuid())
-  name String
+  productId String
+  type String
+  airTemperature Float
+  processTemperature Float
+  rotationalSpeed Int
+  torque Float
+  toolWear Int
+  target Int
+  failureType String
 
   @@map("machines")
 }

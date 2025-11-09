@@ -14,8 +14,28 @@ export const getMachineHandler = async (_: Request, res: Response) => {
 
 export const createMachineHandler = async (req: Request, res: Response) => {
 	try {
-		const { name } = req.body;
-		await createMachine({ name });
+		const { 
+			productId,
+			type,
+			airTemperature,
+			processTemperature,
+			rotationalSpeed,
+			torque,
+			toolWear,
+			target,
+			failureType
+		 } = req.body;
+		await createMachine({ 
+			productId,
+			type,
+			airTemperature,
+			processTemperature,
+			rotationalSpeed,
+			torque,
+			toolWear,
+			target,
+			failureType
+		 });
 		return successRes({ res, message: 'Berhasil menambahkan mesin baru' });
 	} catch (error: any) {
 		console.error(error);
