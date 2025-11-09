@@ -1,10 +1,24 @@
 import { Request, Response } from 'express';
 import { successRes, errorRes } from '../../utils/response';
-import { createMachine, findAllMachines } from './machine.repository';
+import { createMachine, findMachineById, findAllMachines } from './machine.repository';
 
 export const getMachineHandler = async (_: Request, res: Response) => {
 	try {
 		const machine = await findAllMachines();
+		return successRes({ res, data: machine });
+	} catch (error: any) {
+		console.error(error);
+		return errorRes({ res, message: 'Terjadi kesalahan server', status: 500 });
+	}
+};
+
+export const getMachineByIdHandler = async (req: Request, res: Response) => {
+	try {
+		const { id } = req.params;
+		const machine = await findMachineById(id);
+		if (!machine) {
+			return errorRes({ res, message: 'Mesin tidak ditemukan', status: 404 });
+		}
 		return successRes({ res, data: machine });
 	} catch (error: any) {
 		console.error(error);
