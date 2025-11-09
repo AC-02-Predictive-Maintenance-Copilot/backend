@@ -7,9 +7,29 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  ADMIN
+  ENGINEER
+}
+
 model Machine {
   id   String @id @default(uuid())
   name String
 
   @@map("machines")
+}
+
+model User {
+  id         String   @id @default(uuid())
+  name       String
+  username   String   @unique
+  email      String   @unique
+  password   String
+  isVerified Boolean  @default(false)
+  role       Role     @default(ENGINEER)
+  picture    String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("users")
 }
