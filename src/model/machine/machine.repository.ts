@@ -9,3 +9,9 @@ export const findMachineById = async (id: string) =>
   });
 
 export const createMachine = async (data: TMachineInput) => await prisma.machine.create({ data });
+
+export const updateMachine = async (id: string, data: any) =>
+  await prisma.machine.update({
+    where: { id },
+    data,
+  });
