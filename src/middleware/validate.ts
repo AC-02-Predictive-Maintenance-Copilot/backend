@@ -1,6 +1,6 @@
 import { ZodObject, ZodError, ZodTypeAny } from 'zod';
 import { Request, Response, NextFunction } from 'express';
-import { errorRes } from '../utils/response.js';
+import { errorRes } from '../utils/response';
 
 export const idRegExp = new RegExp('^[0-9a-fA-F]{24}$');
 
