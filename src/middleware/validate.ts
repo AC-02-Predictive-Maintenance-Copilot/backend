@@ -1,4 +1,4 @@
-import { ZodObject, ZodError, ZodTypeAny } from 'zod';
+import { ZodError, ZodTypeAny } from 'zod';
 import { Request, Response, NextFunction } from 'express';
 import { errorRes } from '../utils/response';
 
@@ -13,7 +13,7 @@ export const validateBody = (schema: ZodTypeAny) => (req: Request, res: Response
 			return errorRes({
 				res,
 				message: 'Validation error',
-				data: err.issues.map((e) => ({
+				errors: err.issues.map((e) => ({
 					path: e.path.join('.'),
 					message: e.message,
 				})),

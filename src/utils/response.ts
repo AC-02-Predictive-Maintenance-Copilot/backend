@@ -13,5 +13,5 @@ export const successRes = ({ res, message = null, data = null, status = 200 }: I
 };
 
 export const errorRes = ({ res, message = null, errors = null, status = 400 }: IRes) => {
-	return res.status(status).json({ message, errors });
+	return res.status(status).json({ message, ...(errors ? { errors } : {}) });
 };
