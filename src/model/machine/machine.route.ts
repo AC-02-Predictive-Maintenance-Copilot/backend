@@ -5,7 +5,8 @@ import {
     createMachineHandler,
     getMachineByIdHandler,
     getMachineHandler,
-    updateMachineHandler
+    updateMachineHandler,
+    deleteMachineHandler
 } from './machine.controller';
 
 const router = Router();
@@ -14,5 +15,6 @@ router.get('/', getMachineHandler);
 router.get('/:id', getMachineByIdHandler);
 router.post('/', validateBody(machineSchema), createMachineHandler);
 router.put('/:id', updateMachineHandler);
+router.delete("/:id", deleteMachineHandler);
 
 export default router;

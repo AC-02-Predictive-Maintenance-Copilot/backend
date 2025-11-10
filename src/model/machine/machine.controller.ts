@@ -4,7 +4,8 @@ import {
 	createMachine,
 	findMachineById,
 	findAllMachines,
-	updateMachine
+	updateMachine,
+	deleteMachine
 } from './machine.repository';
 
 export const getMachineHandler = async (_: Request, res: Response) => {
@@ -100,6 +101,32 @@ export const updateMachineHandler = async (req: Request, res: Response) => {
 			res,
 			message: "Terjadi kesalahan server",
 			status: 500,
+		});
+	}
+};
+
+export const deleteMachineHandler = async (req: Request, res: Response) => {
+	try {
+		const { id } = req.params;
+
+		// Cek apakah mesin ada
+		const existing = await findMachineById(id);
+		if (!existing) {
+		return errorRes({ res, message: "Mesin tidak ditemukan", status: 404 });
+		}
+
+		await deleteMachine(id);
+
+		return successRes({
+		res,
+		message: "Data mesin berhasil dihapus",
+		});
+	} catch (error: any) {
+		console.error(error);
+		return errorRes({
+		res,
+		message: "Terjadi kesalahan server",
+		status: 500,
 		});
 	}
 };
