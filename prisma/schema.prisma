@@ -13,19 +13,37 @@ enum Role {
 }
 
 model Machine {
-  id   String @id @default(uuid())
-  productId String
-  type String
-  airTemperature Float
-  processTemperature Float
-  rotationalSpeed Int
-  torque Float
-  toolWear Int
-  target Int
-  failureType String
+  id          String           @id @default(uuid())
+  productId   String           @unique
+  name        String
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  // Relasi ke tabel MachineStatus
+  statuses    MachineStatus[]
 
   @@map("machines")
 }
+
+model MachineStatus {
+  id                 String   @id @default(uuid())
+  machineId          String
+  type               String
+  airTemperature     Float    @map("air_temperatur")
+  processTemperature Float    @map("process_temperatur")
+  rotationalSpeed    Int
+  torque             Float
+  toolWear           Int
+  target             Int
+  failureType        String?  @map("failure_type")
+  recordedAt         DateTime @default(now())
+
+  // Relasi ke Machine
+  machine            Machine  @relation(fields: [machineId], references: [id])
+
+  @@map("machine_statuses")
+}
+
 
 model User {
   id         String   @id @default(uuid())
