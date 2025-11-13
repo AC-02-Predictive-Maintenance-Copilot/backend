@@ -56,12 +56,14 @@ Endpoints
 --
 
 Semua endpoint diawali dengan path base `/api/v1`.
+---
 
 1) Health
 
 - GET /api/v1/health
 	- Response: 200 OK
 	- Body: `{ "ok": true, "ts": "2025-..." }`
+---
 
 2) Auth
 --
@@ -110,6 +112,7 @@ Prefix: `/api/v1/auth`
 	- Deskripsi: Mendapatkan data user saat ini.
 	- Autentikasi: `requireAuth` middleware (harus mengirimkan header Authorization: `Bearer <token>`)
 	- Response (200 OK): `{ "user": { ... } }`
+---
 
 3) Machine
 --
@@ -153,6 +156,51 @@ Prefix: `/api/v1/machine`
 - DELETE /:id
 	- Deskripsi: Hapus data mesin
 	- Response (200 OK): `{ "message": "Data mesin berhasil dihapus" }` atau 404 kalau ID tidak ditemukan
+---
+
+4. Status
+--
+
+Prefix: `/api/v1/machine/status`
+
+- GET /
+	- Deskripsi: Ambil semua data satus
+	- Response (200 OK): `[{ ... }, ...]`
+
+- GET /:machineId
+	- Deskripsi: Ambil status berdasarkan machine ID
+	- Response (200 OK): `{ ... }` atau 404 jika tidak ditemukan
+
+- POST /
+	- Deskripsi: Tambah data status baru
+	- Request body (contoh JSON)
+		```json
+		{
+		"machineId": "77c70d13-57e5-4839-9f89-bc3c7e63dc8a",
+		"type": "L",
+		"airTemperature": 288.2,
+		"processTemperature": 390.7,
+		"rotationalSpeed": 1108,
+		"torque": 30.3,
+		"toolWear": 1,
+		"target": 0,
+		"failureType": "Power Failure"
+		}
+		```
+	- Response (200 OK default helper):
+		```json
+		{ "message": "Berhasil menambahkan Status baru" }
+		```
+
+- PUT /:id
+	- Deskripsi: Update data Status
+	- Request body: sama struktur dengan POST (field yang tidak dikirim akan di-set ke `undefined` pada repository update call)
+	- Response (200 OK): `{ "message": "Data Status berhasil diupdate", "data": { ... } }` atau 404 kalau ID tidak ditemukan
+
+- DELETE /:id
+	- Deskripsi: Hapus data mesin
+	- Response (200 OK): `{ "message": "Data Status berhasil dihapus" }` atau 404 kalau ID tidak ditemukan
+--
 
 Schemas & Validasi
 --
