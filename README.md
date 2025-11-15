@@ -8,7 +8,7 @@ API ini merupakan backend service untuk *Predictive Maintenance Copilot*, sebuah
 
 Untuk mempermudah testing seluruh endpoint API, gunakan Postman Collection berikut:
 
-👉 **[Download Predictive Maintenance Copilot API V1.postman_collection.json](collections/Predictive%20Maintenance%20Copilot%20API%20V1.postman_collection.json)**
+👉 **[Download Predictive Maintenance Copilot API V1.postman_collection.json](postman/collections/Predictive%20Maintenance%20Copilot%20API%20V1.postman_collection.json)**
 
 Atau impor file yang berada di folder:
 
