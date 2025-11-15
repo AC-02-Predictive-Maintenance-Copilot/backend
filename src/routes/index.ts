@@ -6,10 +6,6 @@ import { requireAuth } from '../middleware/auth';
 
 const router = Router();
 
-export const machinePath = '/machines';
-export const statusPath = '/statuses';
-export const ticketPath = '/tickets';
-
 router.get('/health', (_, res) => {
 	res.json({ ok: true, ts: new Date().toISOString() });
 });
@@ -17,7 +13,7 @@ router.get('/health', (_, res) => {
 router.use('/auth', authRouter);
 
 router.use(requireAuth);
-router.use(machinePath, machineRouter);
-router.use(ticketPath, ticketRouter);
+router.use('/machines', machineRouter);
+router.use('/tickets', ticketRouter);
 
 export { router };

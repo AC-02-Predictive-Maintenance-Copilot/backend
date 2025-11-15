@@ -5,15 +5,17 @@ import {
 	findMachineById,
 	findAllMachines,
 	updateMachine,
-	deleteMachine,
 	findAllStatus,
 	findStatusByMachineId,
 	createStatus,
 	updateStatus,
 	deleteStatus,
 	findStatusById,
+	saveMachineAnalysis,
 } from './machine.repository';
 import { deleteMachineService } from './machine.service';
+import { checkMachineWithFastAPI } from '../../services/fastapi.service';
+import { generateAgentResponse } from '../../services/agent.service';
 
 export const getMachineHandler = async (_: Request, res: Response) => {
 	const machines = await findAllMachines();
@@ -63,6 +65,46 @@ export const deleteMachineHandler = async (req: Request, res: Response) => {
 		res,
 		message: 'Data mesin berhasil dihapus',
 		data: { machine },
+	});
+};
+
+export const checkMachineHandler = async (req: Request, res: Response) => {
+	const { statusId } = req.params;
+	const payload = req.body;
+
+	if (!statusId) {
+		return errorRes({
+			res,
+			status: 400,
+			message: 'statusId tidak ditemukan di parameter',
+		});
+	}
+
+	const diagnosis = await checkMachineWithFastAPI(payload);
+	const agentMessage = await generateAgentResponse(diagnosis);
+
+	if (!agentMessage) {
+		return errorRes({
+			res,
+			status: 500,
+			message: 'Gagal menghasilkan analisis dari AI',
+		});
+	}
+
+	const savedRecord = await saveMachineAnalysis({
+		statusId,
+		diagnosis,
+		agentMessage,
+	});
+
+	return successRes({
+		res,
+		message: 'Success',
+		data: {
+			mlDiagnosis: diagnosis,
+			aiAnalysis: agentMessage,
+			savedRecord,
+		},
 	});
 };
 
