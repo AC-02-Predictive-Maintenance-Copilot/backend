@@ -1,223 +1,554 @@
+# 🚀 **Predictive Maintenance API – Documentation (v1)**
 
-# Predictive Maintenance API
-
-API ini merupakan backend service untuk... (jelaskan)
-
----
-## Tech Stack
-
-- **Node.js + Express** – Framework backend
-- **TypeScript** – Supaya lebih aman dan terstruktur
-- **Prisma ORM** – Manajemen database PostgreSQL
-- **Zod** – Validasi input
-- **PostgreSQL** – Database utama
+API ini merupakan backend service untuk *Predictive Maintenance Copilot*, sebuah sistem untuk memonitor kondisi mesin, memprediksi potensi kerusakan, dan membantu teknisi dalam menangani masalah melalui pencatatan tiket dan status kondisi sensor mesin.
 
 ---
 
-## Setup dan Instalasi
+# ⚙️ **Tech Stack**
 
-### Clone Repository
-```powershell
+* **Node.js + Express** – Backend server
+* **TypeScript** – Typed JavaScript
+* **Prisma ORM** – Akses dan schema database PostgreSQL
+* **Zod** – Validasi request
+* **PostgreSQL** – Database utama
+
+---
+
+# 📦 **Setup & Installation**
+
+### 1. Clone Repository
+
+```bash
 git clone https://github.com/AC-02-Predictive-Maintenance-Copilot/backend.git
-```
-```powershell
 cd backend
 ```
 
-### Install Dependencies
-```powershell
+### 2. Install Dependencies
+
+```bash
 npm install
 ```
-### Konfigurasi Environment (.env)
 
-Sesuaikan file .env isi dengan konfigurasi database kamu:
+### 3. Configure Environment
 
-### Inisialisasi Prisma
+Buat file `.env` dan sesuaikan database & konfigurasi lainnya.
 
-Push schema ke database:
+### 4. Prisma Init
 
-```powershell
+```bash
 npx prisma db push
 ```
 
-### Jalankan Server
-```powershell
+### 5. Run Server
+
+```bash
 npm run dev
 ```
----
-Base URL
---
 
-- Local (default): `http://localhost:PORT/api/v1`
-
-PORT dibaca dari environment variable `PORT` (lihat `src/server.ts`).
-
-Endpoints
---
-
-Semua endpoint diawali dengan path base `/api/v1`.
 ---
 
-1) Health
+# 🌍 **Base URL**
 
-- GET /api/v1/health
-	- Response: 200 OK
-	- Body: `{ "ok": true, "ts": "2025-..." }`
+```
+http://localhost:PORT/api/v1
+```
+
+PORT diambil dari `process.env.PORT`.
+
 ---
 
-2) Auth
---
+# 📚 **Daftar Endpoint (Overview)**
 
-Prefix: `/api/v1/auth`
+## **📌 1. Health**
 
-- POST /register
-	- Deskripsi: Registrasi user baru.
-	- Validation: `registerSchema` (divalidasi oleh middleware Zod)
-	- Request body (contoh JSON):
-		```json
-		{
-			"name": "Nama Pengguna",
-			"username": "username",
-			"email": "email@example.com",
-			"password": "rahasia"
-		}
-		```
-	- Response (201 Created):
-		```json
-		{
-			"message": "Registrasi berhasil",
-			"data": { /* objek user tanpa password */ }
-		}
-		```
+| Method | Endpoint         | Deskripsi         |
+| ------ | ---------------- | ----------------- |
+| GET    | `/api/v1/health` | Cek status server |
 
-- POST /login
-	- Deskripsi: Login dan mendapatkan token.
-	- Rate-limited (loginRateLimiter)
-	- Request body (contoh JSON):
-		```json
-		{ "email": "email@example.com", "password": "rahasia" }
-		```
-	- Response (200 OK):
-		```json
-		{
-			"message": "Login berhasil",
-			"data": {
-				"token": "<jwt-token>",
-				"user": { "id": "...", "name": "...", "email": "..." }
-			}
-		}
-		```
-
-- GET /me
-	- Deskripsi: Mendapatkan data user saat ini.
-	- Autentikasi: `requireAuth` middleware (harus mengirimkan header Authorization: `Bearer <token>`)
-	- Response (200 OK): `{ "user": { ... } }`
 ---
 
-3) Machine
---
+## **🔐 2. Auth**
 
-Prefix: `/api/v1/machine`
+| Method | Endpoint                | Deskripsi                          |
+| ------ | ----------------------- | ---------------------------------- |
+| POST   | `/api/v1/auth/register` | Registrasi user                    |
+| POST   | `/api/v1/auth/login`    | Login & mendapatkan token          |
+| GET    | `/api/v1/auth/me`       | Mendapatkan user yang sedang login |
 
-- GET /
-	- Deskripsi: Ambil semua data mesin
-	- Response (200 OK): `[{ ... }, ...]`
-
-- GET /:id
-	- Deskripsi: Ambil mesin berdasarkan ID
-	- Response (200 OK): `{ ... }` atau 404 jika tidak ditemukan
-
-- POST /
-	- Deskripsi: Tambah data mesin baru
-	- Request body (contoh JSON)
-		```json
-		{
-        "productId": "L47183",
-        "type": "L",
-        "airTemperature": 288.2,
-        "processTemperature": 390.7,
-        "rotationalSpeed": 1108,
-        "torque": 30.3,
-        "toolWear": 1,
-        "target": 0,
-        "failureType": "Power Failure"
-        }
-		```
-	- Response (200 OK default helper):
-		```json
-		{ "message": "Berhasil menambahkan mesin baru" }
-		```
-
-- PUT /:id
-	- Deskripsi: Update data mesin
-	- Request body: sama struktur dengan POST (field yang tidak dikirim akan di-set ke `undefined` pada repository update call)
-	- Response (200 OK): `{ "message": "Data mesin berhasil diupdate", "data": { ... } }` atau 404 kalau ID tidak ditemukan
-
-- DELETE /:id
-	- Deskripsi: Hapus data mesin
-	- Response (200 OK): `{ "message": "Data mesin berhasil dihapus" }` atau 404 kalau ID tidak ditemukan
 ---
 
-4. Status
---
+## **🛠️ 3. Machines**
 
-Prefix: `/api/v1/machine/status`
+| Method | Endpoint               | Deskripsi       |
+| ------ | ---------------------- | --------------- |
+| GET    | `/api/v1/machines`     | Get list mesin  |
+| POST   | `/api/v1/machines`     | Create mesin    |
+| GET    | `/api/v1/machines/:id` | Get mesin by id |
+| PUT    | `/api/v1/machines/:id` | Update mesin    |
+| DELETE | `/api/v1/machines/:id` | Delete mesin    |
 
-- GET /
-	- Deskripsi: Ambil semua data satus
-	- Response (200 OK): `[{ ... }, ...]`
+---
 
-- GET /:machineId
-	- Deskripsi: Ambil status berdasarkan machine ID
-	- Response (200 OK): `{ ... }` atau 404 jika tidak ditemukan
+## **🌡️ 4. Machine Status**
 
-- POST /
-	- Deskripsi: Tambah data status baru
-	- Request body (contoh JSON)
-		```json
-		{
-		"machineId": "77c70d13-57e5-4839-9f89-bc3c7e63dc8a",
-		"type": "L",
-		"airTemperature": 288.2,
-		"processTemperature": 390.7,
-		"rotationalSpeed": 1108,
-		"torque": 30.3,
-		"toolWear": 1,
-		"target": 0,
-		"failureType": "Power Failure"
-		}
-		```
-	- Response (200 OK default helper):
-		```json
-		{ "message": "Berhasil menambahkan Status baru" }
-		```
+| Method | Endpoint                               | Deskripsi                       |
+| ------ | -------------------------------------- | ------------------------------- |
+| GET    | `/api/v1/machines/statuses/all`                 | Get semua status seluruh mesin  |
+| GET    | `/api/v1/machines/:machineId/statuses` | Get status milik mesin tertentu |
+| POST   | `/api/v1/machines/statuses`                     | Create status                   |
+| PUT    | `/api/v1/machines/statuses/:id`                 | Update status                   |
+| DELETE | `/api/v1/machines/statuses/:id`                 | Delete status                   |
 
-- PUT /:id
-	- Deskripsi: Update data Status
-	- Request body: sama struktur dengan POST (field yang tidak dikirim akan di-set ke `undefined` pada repository update call)
-	- Response (200 OK): `{ "message": "Data Status berhasil diupdate", "data": { ... } }` atau 404 kalau ID tidak ditemukan
+---
 
-- DELETE /:id
-	- Deskripsi: Hapus data mesin
-	- Response (200 OK): `{ "message": "Data Status berhasil dihapus" }` atau 404 kalau ID tidak ditemukan
---
+## **🎫 5. Tickets**
 
-Schemas & Validasi
---
+| Method | Endpoint                              | Deskripsi                      |
+| ------ | ------------------------------------- | ------------------------------ |
+| GET    | `/api/v1/machines/:machineId/tickets` | Get tiket untuk mesin tertentu |
+| POST   | `/api/v1/tickets`                     | Create ticket                  |
+| PUT    | `/api/v1/tickets/:id`                 | Update ticket                  |
+| DELETE | `/api/v1/tickets/:id`                 | Delete ticket                  |
 
-- Validasi request untuk endpoint tertentu dilakukan oleh middleware `validateBody` yang menggunakan schema Zod (lihat file `src/model/*/*.validator.ts`).
-- Auth endpoint juga dilindungi oleh rate limiter.
+---
 
-Error handling
---
+# 📘 **Endpoint Detail & Response Lengkap**
 
-- API menggunakan middleware `errorHandler` untuk membentuk response error konsisten.
-- Contoh response error 404 / 400 / 500 (sering berisi fields: `message`, optional `details`).
+---
 
-Notes
---
+# 1) 🟢 **Health**
 
-- Pastikan environment variables berikut diset: `PORT`, `CORS_ORIGIN`, DB connection untuk Prisma (lihat `prisma/schema.prisma`).
-- Scripts tersedia di `package.json`:
-	- `npm run dev` — jalankan development server (ts-node-dev)
-	- `npm run build` — compile TypeScript
+### **GET /api/v1/health**
+
+#### Response (200)
+
+```json
+{
+  "ok": true,
+  "ts": "2025-11-15T10:00:00.000Z"
+}
+```
+
+---
+
+# 2) 🔐 **Authentication API**
+
+## **2.1 Register User**
+
+### POST `/api/v1/auth/register`
+
+#### Body
+
+```json
+{
+  "name": "Nama Pengguna",
+  "username": "username",
+  "email": "email@example.com",
+  "password": "rahasia"
+}
+```
+
+#### Response (201)
+
+```json
+{
+  "message": "Registrasi berhasil",
+  "data": {
+    "id": "uuid",
+    "name": "Nama Pengguna",
+    "username": "username",
+    "email": "email@example.com"
+  }
+}
+```
+
+---
+
+## **2.2 Login User**
+
+### POST `/api/v1/auth/login`
+
+#### Body
+
+```json
+{
+  "email": "email@example.com",
+  "password": "rahasia"
+}
+```
+
+#### Response (200)
+
+```json
+{
+  "message": "Login berhasil",
+  "data": {
+    "token": "JWT_TOKEN",
+    "user": {
+      "id": "uuid",
+      "name": "Nama Pengguna",
+      "email": "email@example.com"
+    }
+  }
+}
+```
+
+---
+
+## **2.3 Get Authenticated User**
+
+### GET `/api/v1/auth/me`
+
+#### Headers
+
+```
+Authorization: Bearer <token>
+```
+
+#### Response (200)
+
+```json
+{
+  "data": {
+    "id": "uuid",
+    "name": "Nama Pengguna",
+    "email": "email@example.com"
+  }
+}
+```
+
+---
+
+# 3) 🛠️ **Machines API**
+
+## **3.1 Get All Machines**
+
+### GET `/api/v1/machines`
+
+#### Response
+
+```json
+{
+  "data": {
+    "machines": [
+      {
+        "id": "uuid",
+        "productId": "001",
+        "name": "Mesin 001"
+      }
+    ]
+  }
+}
+```
+
+---
+
+## **3.2 Create Machine**
+
+### POST `/api/v1/machines`
+
+#### Body
+
+```json
+{
+  "productId": "001",
+  "name": "Mesin 001"
+}
+```
+
+#### Response (201)
+
+```json
+{
+  "message": "Berhasil menambahkan mesin baru",
+  "data": {
+    "machine": {
+      "id": "uuid",
+      "productId": "001",
+      "name": "Mesin 001"
+    }
+  }
+}
+```
+
+---
+
+## **3.3 Get Machine By ID**
+
+### GET `/api/v1/machines/:id`
+
+#### Response
+
+```json
+{
+  "data": {
+    "machine": {
+      "id": "uuid",
+      "productId": "001",
+      "name": "Mesin 001"
+    }
+  }
+}
+```
+
+---
+
+## **3.4 Update Machine**
+
+### PUT `/api/v1/machines/:id`
+
+#### Body
+
+```json
+{
+  "productId": "001",
+  "name": "Mesin 001 Updated"
+}
+```
+
+#### Response
+
+```json
+{
+  "message": "Data mesin berhasil diperbarui",
+  "data": {
+    "machine": {
+      "id": "uuid",
+      "productId": "001",
+      "name": "Mesin 001 Updated"
+    }
+  }
+}
+```
+
+---
+
+## **3.5 Delete Machine**
+
+### DELETE `/api/v1/machines/:id`
+
+#### Response
+
+```json
+{
+  "message": "Data mesin berhasil dihapus",
+  "data": {
+    "machine": {
+      "id": "uuid",
+      "productId": "001",
+      "name": "Mesin 001"
+    }
+  }
+}
+```
+
+---
+
+# 4) 🌡️ **Machine Status API**
+
+## **4.1 Get All Statuses**
+
+### GET `/api/v1/machines/statuses/all`
+
+#### Response
+
+```json
+{
+  "data": {
+    "statuses": []
+  }
+}
+```
+
+---
+
+## **4.2 Get Status by Machine**
+
+### GET `/api/v1/machines/:machineId/statuses`
+
+#### Response
+
+```json
+{
+  "data": {
+    "statuses": [
+      {
+        "id": "uuid",
+        "machineId": "uuid",
+        "type": "warning",
+        "airTemperature": 300.1,
+        "processTemperature": 315,
+        "rotationalSpeed": 1400,
+        "torque": 39.2,
+        "toolWear": 8,
+        "target": 1,
+        "failureType": null,
+        "recordedAt": "2025-11-15T09:00:00.000Z"
+      }
+    ]
+  }
+}
+```
+
+---
+
+## **4.3 Create Status**
+
+### POST `/api/v1/machines/statuses`
+
+#### Body
+
+```json
+{
+  "machineId": "uuid",
+  "type": "normal",
+  "airTemperature": 298.5,
+  "processTemperature": 310.2,
+  "rotationalSpeed": 1500,
+  "torque": 35.4,
+  "toolWear": 12,
+  "target": 1,
+  "failureType": null
+}
+```
+
+#### Response
+
+```json
+{
+  "message": "Berhasil menambahkan status baru",
+  "data": {
+    "status": {
+      "id": "uuid",
+      "machineId": "uuid",
+      "type": "normal",
+      "airTemperature": 298.5,
+      "processTemperature": 310.2,
+      "rotationalSpeed": 1500,
+      "torque": 35.4,
+      "toolWear": 12,
+      "target": 1,
+      "failureType": null,
+      "recordedAt": "2025-11-15T10:00:00.000Z"
+    }
+  }
+}
+```
+
+---
+
+## **4.4 Update Status**
+
+### PUT `/api/v1/machines/statuses/:id`
+
+---
+
+## **4.5 Delete Status**
+
+### DELETE `/api/v1/machines/statuses/:id`
+
+---
+
+# 5) 🎫 **Tickets API**
+
+## **5.1 Get Tickets by Machine**
+
+### GET `/api/v1/machines/:machineId/tickets`
+
+#### Response
+
+```json
+{
+  "data": {
+    "tickets": []
+  }
+}
+```
+
+---
+
+## **5.2 Create Ticket**
+
+### POST `/api/v1/tickets`
+
+#### Body
+
+```json
+{
+  "machineId": "uuid",
+  "priority": "HIGH",
+  "status": "OPEN",
+  "description": "Mesin mengalami suara berisik."
+}
+```
+
+#### Response
+
+```json
+{
+  "message": "Berhasil membuat ticket baru",
+  "data": {
+    "ticket": {
+      "id": "uuid",
+      "machineId": "uuid",
+      "priority": "HIGH",
+      "status": "OPEN",
+      "description": "Mesin mengalami suara berisik."
+    }
+  }
+}
+```
+
+---
+
+## **5.3 Update Ticket**
+
+### PUT `/api/v1/tickets/:id`
+
+---
+
+## **5.4 Delete Ticket**
+
+### DELETE `/api/v1/tickets/:id`
+
+---
+
+# 🧩 **Schemas & Validation**
+
+* Semua body request divalidasi dengan **Zod schema** menggunakan middleware `validateBody`.
+* Schema berada di:
+
+```
+src/model/*/*.validator.ts
+```
+
+---
+
+# ❗ Error Handling
+
+Semua error ditangani oleh middleware:
+
+```
+/src/middleware/errorHandler.ts
+/src/middleware/validate.ts
+```
+
+Format error standar:
+
+```json
+{
+ "message": "Error message here",
+ "errors": [],
+ "status": "status"
+}
+```
+
+---
+
+# 📌 Notes
+
+* Pastikan environment variable `PORT`, `DATABASE_URL`, dan `CORS_ORIGIN` sudah diset.
+* Script:
+
+  * `npm run dev` — jalankan server mode development
+  * `npm run build` — compile ke JavaScript
