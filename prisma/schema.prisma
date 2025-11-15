@@ -65,12 +65,14 @@ model MachineStatus {
 model MachineAnalysis {
   id            String @id @default(uuid())
   statusId      String @map("status_id")
-  diagnosisJson Json
-  agentMessage  String
+  diagnosisJson Json   @map("diagnosis_json")
+  agentMessage  String @map("agent_message")
 
-  createdAt DateTime @default(now())
+  createdAt DateTime @default(now()) @map("created_at")
 
   machineStatus MachineStatus @relation(fields: [statusId], references: [id])
+
+  @@map("machine_analysis")
 }
 
 model Ticket {
