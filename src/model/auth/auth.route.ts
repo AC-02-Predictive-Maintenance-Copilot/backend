@@ -5,6 +5,7 @@ import { loginHandler, registerHandler } from './auth.controller';
 import { loginRateLimiter } from './auth.limiter';
 import { AuthRequest, requireAuth } from '../../middleware/auth';
 import { createRateLimiter } from '../../middleware/rateLimiter';
+import { successRes } from '../../utils/response';
 
 const router = Router();
 
@@ -20,8 +21,8 @@ router.post('/register', validateBody(registerSchema), registerHandler);
 
 router.post('/login', loginRateLimiter, validateBody(loginSchema), loginHandler);
 
-router.get('/me', requireAuth, async (req: AuthRequest, res) => {
-	res.json({ user: req.user });
+router.get('/me', requireAuth, async ({ user }: AuthRequest, res) => {
+	return successRes({ res, data: user });
 });
 
 export default router;

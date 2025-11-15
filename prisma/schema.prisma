@@ -7,55 +7,85 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
+enum ERole {
   ADMIN
   ENGINEER
 }
 
+enum EPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum EStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+}
+
 model Machine {
-  id          String           @id @default(uuid())
-  productId   String           @unique
-  name        String
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
+  id        String @id @default(uuid())
+  productId String @unique @map("product_id")
+  name      String
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   // Relasi ke tabel MachineStatus
-  statuses    MachineStatus[]
+  statuses MachineStatus[]
+
+  // Relasi ke tabel Ticket
+  tickets Ticket[]
 
   @@map("machines")
 }
 
 model MachineStatus {
   id                 String   @id @default(uuid())
-  machineId          String
+  machineId          String   @map("machine_id")
   type               String
-  airTemperature     Float    @map("air_temperatur")
-  processTemperature Float    @map("process_temperatur")
-  rotationalSpeed    Int
+  airTemperature     Float    @map("air_temperature")
+  processTemperature Float    @map("process_temperature")
+  rotationalSpeed    Int      @map("rotational_speed")
   torque             Float
-  toolWear           Int
+  toolWear           Int      @map("tool_wear")
   target             Int
   failureType        String?  @map("failure_type")
-  recordedAt         DateTime @default(now())
+  recordedAt         DateTime @default(now()) @map("recorded_at")
 
   // Relasi ke Machine
-  machine            Machine  @relation(fields: [machineId], references: [id])
+  machine Machine @relation(fields: [machineId], references: [id])
 
   @@map("machine_statuses")
 }
 
+model Ticket {
+  id          String    @id @default(uuid())
+  machineId   String    @map("machine_id")
+  priority    EPriority
+  status      EStatus
+  description String
+  isPublished Boolean   @default(false) @map("is_published")
+
+  // Relasi ke Machine
+  machine Machine @relation(fields: [machineId], references: [id])
+
+  @@map("tickets")
+}
 
 model User {
-  id         String   @id @default(uuid())
+  id         String  @id @default(uuid())
   name       String
-  username   String   @unique
-  email      String   @unique
+  username   String  @unique
+  email      String  @unique
   password   String
-  isVerified Boolean  @default(false)
-  role       Role     @default(ENGINEER)
+  isVerified Boolean @default(false) @map("is_verified")
+  role       ERole   @default(ENGINEER)
   picture    String?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("users")
 }
