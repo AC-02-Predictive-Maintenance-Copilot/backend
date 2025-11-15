@@ -1,0 +1,14 @@
+{
+  "workspace": {
+    "id": "2365535b-2510-45ae-8d14-3e26ad4f1100"
+  },
+  "entities": {
+    "collections": [
+      "..\\postman\\collections\\Predictive Maintenance Copilot API V1.postman_collection.json"
+    ],
+    "environments": [],
+    "specs": [],
+    "flows": [],
+    "globals": []
+  }
+}

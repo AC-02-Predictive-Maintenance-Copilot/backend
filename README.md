@@ -93,13 +93,14 @@ PORT diambil dari `process.env.PORT`.
 
 ## **🛠️ 3. Machines**
 
-| Method | Endpoint               | Deskripsi       |
-| ------ | ---------------------- | --------------- |
-| GET    | `/api/v1/machines`     | Get list mesin  |
-| POST   | `/api/v1/machines`     | Create mesin    |
-| GET    | `/api/v1/machines/:id` | Get mesin by id |
-| PUT    | `/api/v1/machines/:id` | Update mesin    |
-| DELETE | `/api/v1/machines/:id` | Delete mesin    |
+| Method | Endpoint                           | Deskripsi       |
+| ------ | ---------------------------------- | --------------- |
+| GET    | `/api/v1/machines`                 | Get list mesin  |
+| POST   | `/api/v1/machines`                 | Create mesin    |
+| GET    | `/api/v1/machines/:id`             | Get mesin by id |
+| PUT    | `/api/v1/machines/:id`             | Update mesin    |
+| DELETE | `/api/v1/machines/:id`             | Delete mesin    |
+| POST   | `/api/v1/machines/check/:statusId` | Check mesin     |
 
 ---
 
@@ -353,6 +354,54 @@ Authorization: Bearer <token>
       "name": "Mesin 001"
     }
   }
+}
+```
+
+---
+
+## **3.6 Check Machine**
+
+### DELETE `/api/v1/machines/check/:statusId`
+
+#### Body
+
+```json
+{
+    "air_temp": 300,
+    "process_temp": 330,
+    "rpm": 1600,
+    "torque": 55,
+    "tool_wear": 45,
+    "type": "L"
+}
+```
+
+#### Response
+
+```json
+{
+    "message": "Success",
+    "data": {
+        "mlDiagnosis": {
+            "is_anomaly": true,
+            "risk_probability": 0.01,
+            "is_at_risk": false,
+            "failure_cause": "No Failure"
+        },
+        "aiAnalysis": "## 1. Ringkasan Kondisi Mesin\n- Berdasarkan data diagnosis ML, kondisi mesin saat ini menunjukkan adanya anomali (`is_anomaly`: true), namun dengan probabilitas risiko yang sangat rendah (`risk_probability`: 0.01) dan tidak berada dalam kondisi bahaya (`is_at_risk`: false). Penyebab kegagalan yang terdeteksi adalah \"No Failure\", menunjukkan bahwa mesin tidak mengalami kegagalan yang signifikan.\n\n## 2. Alasan Teknis (Why)\nKondisi ini mungkin terjadi karena beberapa faktor, seperti:\n- Suhu: Fluktuasi suhu yang tidak signifikan mungkin tidak mempengaruhi kinerja mesin secara keseluruhan.\n- Rpm: Putaran mesin yang stabil dan dalam batas normal mungkin tidak menyebabkan kegagalan.\n- Torque: Torsi yang stabil dan sesuai dengan operasional mesin mungkin tidak menyebabkan kelelahan komponen.\n- Tool wear: Kondisi alat yang masih baik dan tidak aus mungkin tidak mempengaruhi kinerja mesin.\n- Failure mode: Tidak ada mode kegagalan yang teridentifikasi, menunjukkan bahwa mesin beroperasi dalam parameter yang diterima.\n\n## 3. Tingkat Risiko (0–100)\n- Klasifikasi: Low (<5%), karena probabilitas risiko yang sangat rendah (0.01) menunjukkan bahwa mesin berada dalam kondisi yang relatif aman.\n\n## 4. Potensi Penyebab\n- List penyebab yang paling mungkin:\n  1. Kesalahan pengukuran atau kalibrasi sensor.\n  2. Fluktuasi kecil dalam operasional mesin yang tidak signifikan.\n  3. Kondisi lingkungan yang tidak ekstrem.\n\n## 5. Rekomendasi Aksi (Actionable)\n- Berikan langkah teknis yang bisa dilakukan teknisi:\n  1. Verifikasi kalibrasi sensor untuk memastikan akurasi data.\n  2. Lakukan pemantauan terus-menerus untuk memastikan kondisi mesin tetap stabil.\n  3. Periksa kondisi lingkungan untuk memastikan tidak ada faktor eksternal yang mempengaruhi kinerja mesin.\n\n## 6. Prioritas\n- Prioritas: Monitoring, karena mesin berada dalam kondisi yang relatif aman dan hanya memerlukan pemantauan terus-menerus untuk memastikan tidak ada perubahan kondisi yang signifikan.\n\n## 7. Executive Summary\nKondisi mesin saat ini menunjukkan adanya anomali dengan probabilitas risiko yang sangat rendah. Tidak ada tanda-tanda kegagalan yang signifikan, dan mesin beroperasi dalam parameter yang diterima. Dengan demikian, prioritas adalah pemantauan terus-menerus untuk memastikan kinerja mesin tetap stabil dan aman. Tidak diperlukan tindakan darurat, dan rekomendasi adalah memverifikasi kalibrasi sensor dan melakukan pemantauan rutin.",
+        "savedRecord": {
+            "id": "7bb0a80c-efcd-4d65-b927-2400626634a5",
+            "statusId": "d39e6082-fac0-4db2-adf9-f26566279273",
+            "diagnosisJson": {
+                "is_anomaly": true,
+                "is_at_risk": false,
+                "failure_cause": "No Failure",
+                "risk_probability": 0.01
+            },
+            "agentMessage": "## 1. Ringkasan Kondisi Mesin\n- Berdasarkan data diagnosis ML, kondisi mesin saat ini menunjukkan adanya anomali (`is_anomaly`: true), namun dengan probabilitas risiko yang sangat rendah (`risk_probability`: 0.01) dan tidak berada dalam kondisi bahaya (`is_at_risk`: false). Penyebab kegagalan yang terdeteksi adalah \"No Failure\", menunjukkan bahwa mesin tidak mengalami kegagalan yang signifikan.\n\n## 2. Alasan Teknis (Why)\nKondisi ini mungkin terjadi karena beberapa faktor, seperti:\n- Suhu: Fluktuasi suhu yang tidak signifikan mungkin tidak mempengaruhi kinerja mesin secara keseluruhan.\n- Rpm: Putaran mesin yang stabil dan dalam batas normal mungkin tidak menyebabkan kegagalan.\n- Torque: Torsi yang stabil dan sesuai dengan operasional mesin mungkin tidak menyebabkan kelelahan komponen.\n- Tool wear: Kondisi alat yang masih baik dan tidak aus mungkin tidak mempengaruhi kinerja mesin.\n- Failure mode: Tidak ada mode kegagalan yang teridentifikasi, menunjukkan bahwa mesin beroperasi dalam parameter yang diterima.\n\n## 3. Tingkat Risiko (0–100)\n- Klasifikasi: Low (<5%), karena probabilitas risiko yang sangat rendah (0.01) menunjukkan bahwa mesin berada dalam kondisi yang relatif aman.\n\n## 4. Potensi Penyebab\n- List penyebab yang paling mungkin:\n  1. Kesalahan pengukuran atau kalibrasi sensor.\n  2. Fluktuasi kecil dalam operasional mesin yang tidak signifikan.\n  3. Kondisi lingkungan yang tidak ekstrem.\n\n## 5. Rekomendasi Aksi (Actionable)\n- Berikan langkah teknis yang bisa dilakukan teknisi:\n  1. Verifikasi kalibrasi sensor untuk memastikan akurasi data.\n  2. Lakukan pemantauan terus-menerus untuk memastikan kondisi mesin tetap stabil.\n  3. Periksa kondisi lingkungan untuk memastikan tidak ada faktor eksternal yang mempengaruhi kinerja mesin.\n\n## 6. Prioritas\n- Prioritas: Monitoring, karena mesin berada dalam kondisi yang relatif aman dan hanya memerlukan pemantauan terus-menerus untuk memastikan tidak ada perubahan kondisi yang signifikan.\n\n## 7. Executive Summary\nKondisi mesin saat ini menunjukkan adanya anomali dengan probabilitas risiko yang sangat rendah. Tidak ada tanda-tanda kegagalan yang signifikan, dan mesin beroperasi dalam parameter yang diterima. Dengan demikian, prioritas adalah pemantauan terus-menerus untuk memastikan kinerja mesin tetap stabil dan aman. Tidak diperlukan tindakan darurat, dan rekomendasi adalah memverifikasi kalibrasi sensor dan melakukan pemantauan rutin.",
+            "createdAt": "2025-11-15T21:34:52.615Z"
+        }
+    }
 }
 ```
 

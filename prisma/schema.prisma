@@ -57,7 +57,20 @@ model MachineStatus {
   // Relasi ke Machine
   machine Machine @relation(fields: [machineId], references: [id])
 
+  machineAnalysis MachineAnalysis[]
+
   @@map("machine_statuses")
+}
+
+model MachineAnalysis {
+  id            String @id @default(uuid())
+  statusId      String @map("status_id")
+  diagnosisJson Json
+  agentMessage  String
+
+  createdAt DateTime @default(now())
+
+  machineStatus MachineStatus @relation(fields: [statusId], references: [id])
 }
 
 model Ticket {
