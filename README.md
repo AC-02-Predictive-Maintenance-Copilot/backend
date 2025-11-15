@@ -4,6 +4,20 @@ API ini merupakan backend service untuk *Predictive Maintenance Copilot*, sebuah
 
 ---
 
+# 📦 **Postman Collection**
+
+Untuk mempermudah testing seluruh endpoint API, gunakan Postman Collection berikut:
+
+👉 **[Download Predictive Maintenance Copilot API V1.postman_collection.json](collections/Predictive%20Maintenance%20Copilot%20API%20V1.postman_collection.json)**
+
+Atau impor file yang berada di folder:
+
+```
+collections/Predictive Maintenance Copilot API V1.postman_collection.json
+```
+
+---
+
 # ⚙️ **Tech Stack**
 
 * **Node.js + Express** – Backend server
@@ -529,8 +543,8 @@ src/model/*/*.validator.ts
 Semua error ditangani oleh middleware:
 
 ```
-/src/middleware/errorHandler.ts
-/src/middleware/validate.ts
+src/middleware/errorHandler.ts
+src/middleware/validate.ts
 ```
 
 Format error standar:
