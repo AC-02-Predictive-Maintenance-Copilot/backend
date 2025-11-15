@@ -13,7 +13,7 @@ Untuk mempermudah testing seluruh endpoint API, gunakan Postman Collection berik
 Atau impor file yang berada di folder:
 
 ```
-collections/Predictive Maintenance Copilot API V1.postman_collection.json
+postman/collections/Predictive Maintenance Copilot API V1.postman_collection.json
 ```
 
 ---
