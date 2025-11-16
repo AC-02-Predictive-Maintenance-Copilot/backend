@@ -9,7 +9,7 @@ export const registerService = async ({ name, username, email, password }: { nam
 		throw new HttpError('Email sudah terdaftar', 409);
 	}
 
-	const existingUsername = await findUserByUsername(email);
+	const existingUsername = await findUserByUsername(username);
 	if (existingUsername) {
 		throw new HttpError('Username sudah terdaftar', 409);
 	}
