@@ -43,5 +43,5 @@ export const loginService = async ({ email, password }: { email: string; passwor
 };
 
 export const getAuthUserService = async (id: string) => {
-	const user = await findUserById(id);
+	return await findUserById(id);
 };
