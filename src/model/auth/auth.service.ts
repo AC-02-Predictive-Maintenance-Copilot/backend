@@ -47,5 +47,7 @@ export const loginService = async ({ email, password }: { email: string; passwor
 };
 
 export const getAuthUserService = async (id: string) => {
-	return await findUserById(id);
+	const user = await findUserById(id);
+	if (!user) throw new HttpError('User tidak ditemukan', 404);
+	return user;
 };

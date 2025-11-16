@@ -14,22 +14,15 @@
             {
               "listen": "test",
               "script": {
-                "id": "14d51e9d-a1af-41f2-872f-a3a3dfe2ccf2",
                 "exec": [
                   "pm.test(\"Status code is 200\", function () {\r",
                   "    pm.response.to.have.status(200);\r",
                   "});"
                 ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "type": "text/javascript"
               }
             }
           ],
-          "id": "98c82bfd-9bff-4dc9-b636-c72857d383c1",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "method": "GET",
             "header": [
@@ -48,11 +41,9 @@
                 "health"
               ]
             }
-          },
-          "response": []
+          }
         }
-      ],
-      "id": "93310e89-dd24-41bc-9b3e-0b14f2d6f801"
+      ]
     },
     {
       "name": "Auth",
@@ -63,7 +54,6 @@
             {
               "listen": "test",
               "script": {
-                "id": "87955578-0c0a-4bd5-9f44-e9db6cc0b80b",
                 "exec": [
                   "pm.test('it should response 201 status code', () => {\r",
                   "    pm.expect(pm.response).to.have.status(201);\r",
@@ -85,16 +75,10 @@
                   "    pm.expect(responseJson.data).to.be.an('object');\r",
                   "});"
                 ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "type": "text/javascript"
               }
             }
           ],
-          "id": "a99f2594-b588-43b0-9b85-1fea929ad0e2",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "method": "POST",
             "header": [
@@ -123,8 +107,7 @@
                 "register"
               ]
             }
-          },
-          "response": []
+          }
         },
         {
           "name": "Login User",
@@ -132,7 +115,6 @@
             {
               "listen": "test",
               "script": {
-                "id": "8474e970-dbb7-44f6-bd74-a9d250e3fec9",
                 "exec": [
                   "pm.test('it should response 200 status code', () => {\r",
                   "    pm.expect(pm.response).to.have.status(200);\r",
@@ -158,16 +140,10 @@
                   "    pm.environment.set('ACCESS_TOKEN', responseJson.data.token);\r",
                   "});"
                 ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "type": "text/javascript"
               }
             }
           ],
-          "id": "2d7c43fb-9906-4573-b420-e0b60dbaed08",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "method": "POST",
             "header": [
@@ -196,8 +172,7 @@
                 "login"
               ]
             }
-          },
-          "response": []
+          }
         },
         {
           "name": "Get Auth User",
@@ -205,7 +180,6 @@
             {
               "listen": "test",
               "script": {
-                "id": "12c79daf-2ae9-4c5b-a126-177578ec6e3f",
                 "exec": [
                   "pm.test('it should response 200 status code', () => {\r",
                   "    pm.expect(pm.response).to.have.status(200);\r",
@@ -226,16 +200,10 @@
                   "    pm.expect(responseJson.data).to.be.an('object');\r",
                   "});"
                 ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "type": "text/javascript"
               }
             }
           ],
-          "id": "936bb4e5-200f-47cd-bc0f-6f8710a78a3a",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "auth": {
               "type": "bearer",
@@ -269,11 +237,9 @@
                 "me"
               ]
             }
-          },
-          "response": []
+          }
         }
-      ],
-      "id": "88766765-c375-443b-a285-a8391a47c84d"
+      ]
     },
     {
       "name": "Machines",
@@ -284,7 +250,6 @@
             {
               "listen": "test",
               "script": {
-                "id": "58afd349-2944-4997-b3cc-d6fd786f60ab",
                 "exec": [
                   "pm.test('it should response 200 status code', () => {\r",
                   "    pm.expect(pm.response).to.have.status(200);\r",
@@ -314,16 +279,10 @@
                   "    }\r",
                   "});"
                 ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "type": "text/javascript"
               }
             }
           ],
-          "id": "aa0e5fde-9ffe-4436-a9cd-5f7c8903f31f",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "auth": {
               "type": "bearer",
@@ -352,8 +311,7 @@
                 "machines"
               ]
             }
-          },
-          "response": []
+          }
         },
         {
           "name": "Create New Machine",
@@ -361,7 +319,6 @@
             {
               "listen": "test",
               "script": {
-                "id": "cbb86f78-7ee5-40d4-ad5b-9cb0da3c0ef9",
                 "exec": [
                   "pm.test('it should response 201 status code', () => {\r",
                   "    pm.expect(pm.response).to.have.status(201);\r",
@@ -392,16 +349,10 @@
                   "    pm.environment.set('MACHINE_ID', machine.id);\r",
                   "});"
                 ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "type": "text/javascript"
               }
             }
           ],
-          "id": "01f2f7c1-07fd-48c0-99ac-b20c5a237268",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "auth": {
               "type": "bearer",
@@ -439,8 +390,7 @@
                 "machines"
               ]
             }
-          },
-          "response": []
+          }
         },
         {
           "name": "Check Machine",
@@ -448,7 +398,6 @@
             {
               "listen": "test",
               "script": {
-                "id": "cbb86f78-7ee5-40d4-ad5b-9cb0da3c0ef9",
                 "exec": [
                   "pm.test('it should response 201 status code', () => {\r",
                   "    pm.expect(pm.response).to.have.status(201);\r",
@@ -479,16 +428,10 @@
                   "    pm.environment.set('MACHINE_ID', machine.id);\r",
                   "});"
                 ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "type": "text/javascript"
               }
             }
           ],
-          "id": "36100828-ef49-4020-b127-a4e78ce9fbbb",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "auth": {
               "type": "bearer",
@@ -528,8 +471,7 @@
                 "{{STATUS_ID}}"
               ]
             }
-          },
-          "response": []
+          }
         },
         {
           "name": "Get Machine By ID",
@@ -537,7 +479,6 @@
             {
               "listen": "test",
               "script": {
-                "id": "58afd349-2944-4997-b3cc-d6fd786f60ab",
                 "exec": [
                   "pm.test('it should response 200 status code', () => {\r",
                   "    pm.expect(pm.response).to.have.status(200);\r",
@@ -565,16 +506,10 @@
                   "    pm.expect(machine.name).to.be.ok;\r",
                   "});"
                 ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "type": "text/javascript"
               }
             }
           ],
-          "id": "dfc0d23b-2fb0-420f-8c59-0269e7854b2f",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "auth": {
               "type": "bearer",
@@ -604,8 +539,7 @@
                 "{{MACHINE_ID}}"
               ]
             }
-          },
-          "response": []
+          }
         },
         {
           "name": "Update Machine By ID",
@@ -613,7 +547,6 @@
             {
               "listen": "test",
               "script": {
-                "id": "1bd41649-5400-4834-8351-4ef0254b3844",
                 "exec": [
                   "pm.test('it should response 200 status code', () => {\r",
                   "    pm.expect(pm.response).to.have.status(200);\r",
@@ -642,16 +575,10 @@
                   "    pm.expect(machine.name).to.be.ok;\r",
                   "});"
                 ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "type": "text/javascript"
               }
             }
           ],
-          "id": "91777e87-0f7e-45c3-be6f-6e21005864f5",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "auth": {
               "type": "bearer",
@@ -690,8 +617,7 @@
                 "{{MACHINE_ID}}"
               ]
             }
-          },
-          "response": []
+          }
         },
         {
           "name": "Delete Machine By ID",
@@ -699,7 +625,6 @@
             {
               "listen": "test",
               "script": {
-                "id": "898d8bc3-60ab-415f-adb1-f1aaf415dbcf",
                 "exec": [
                   "pm.test('it should response 200 status code', () => {\r",
                   "    pm.expect(pm.response).to.have.status(200);\r",
@@ -728,16 +653,10 @@
                   "    pm.expect(machine.name).to.be.ok;\r",
                   "});"
                 ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "type": "text/javascript"
               }
             }
           ],
-          "id": "ecaeb285-3b8b-4b4c-80c9-80246edc3561",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "auth": {
               "type": "bearer",
@@ -767,11 +686,9 @@
                 "{{MACHINE_ID}}"
               ]
             }
-          },
-          "response": []
+          }
         }
-      ],
-      "id": "8a223d2d-bfc8-4ec2-bff1-939e10dc0364"
+      ]
     },
     {
       "name": "Machines Statuses",
@@ -782,7 +699,6 @@
             {
               "listen": "test",
               "script": {
-                "id": "58afd349-2944-4997-b3cc-d6fd786f60ab",
                 "exec": [
                   "pm.test('it should response 200 status code', () => {\r",
                   "    pm.expect(pm.response).to.have.status(200);\r",
@@ -821,16 +737,10 @@
                   "    }\r",
                   "});"
                 ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "type": "text/javascript"
               }
             }
           ],
-          "id": "a635a65d-3790-4931-b5c8-812f988f92ef",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "auth": {
               "type": "bearer",
@@ -861,8 +771,7 @@
                 "all"
               ]
             }
-          },
-          "response": []
+          }
         },
         {
           "name": "Create New Machine Status",
@@ -870,7 +779,6 @@
             {
               "listen": "test",
               "script": {
-                "id": "cbb86f78-7ee5-40d4-ad5b-9cb0da3c0ef9",
                 "exec": [
                   "pm.test('it should response 201 status code', () => {\r",
                   "    pm.expect(pm.response).to.have.status(201);\r",
@@ -911,16 +819,10 @@
                   "});\r",
                   ""
                 ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "type": "text/javascript"
               }
             }
           ],
-          "id": "768b577b-5b41-4def-9a68-42fdc4e82745",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "auth": {
               "type": "bearer",
@@ -959,8 +861,7 @@
                 "statuses"
               ]
             }
-          },
-          "response": []
+          }
         },
         {
           "name": "Get Machine Status By Machine ID",
@@ -968,7 +869,6 @@
             {
               "listen": "test",
               "script": {
-                "id": "58afd349-2944-4997-b3cc-d6fd786f60ab",
                 "exec": [
                   "pm.test('it should response 200 status code', () => {\r",
                   "    pm.expect(pm.response).to.have.status(200);\r",
@@ -1007,16 +907,10 @@
                   "    }\r",
                   "});"
                 ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "type": "text/javascript"
               }
             }
           ],
-          "id": "ea6cdefd-ac32-4481-9d27-52e7f768a9cf",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "auth": {
               "type": "bearer",
@@ -1047,8 +941,7 @@
                 "statuses"
               ]
             }
-          },
-          "response": []
+          }
         },
         {
           "name": "Update Machine Status By ID",
@@ -1056,7 +949,6 @@
             {
               "listen": "test",
               "script": {
-                "id": "1bd41649-5400-4834-8351-4ef0254b3844",
                 "exec": [
                   "pm.test('it should response 200 status code', () => {\r",
                   "    pm.expect(pm.response).to.have.status(200);\r",
@@ -1095,16 +987,10 @@
                   "});\r",
                   ""
                 ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "type": "text/javascript"
               }
             }
           ],
-          "id": "59b4f2cf-a366-454d-88ef-057b1257147d",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "auth": {
               "type": "bearer",
@@ -1144,8 +1030,7 @@
                 "{{STATUS_ID}}"
               ]
             }
-          },
-          "response": []
+          }
         },
         {
           "name": "Delete Machine Status By ID",
@@ -1153,7 +1038,6 @@
             {
               "listen": "test",
               "script": {
-                "id": "898d8bc3-60ab-415f-adb1-f1aaf415dbcf",
                 "exec": [
                   "pm.test('it should response 200 status code', () => {\r",
                   "    pm.expect(pm.response).to.have.status(200);\r",
@@ -1192,16 +1076,10 @@
                   "});\r",
                   ""
                 ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "type": "text/javascript"
               }
             }
           ],
-          "id": "20c88d98-1f7e-4915-9be4-406bb5d1d6cb",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "auth": {
               "type": "bearer",
@@ -1232,11 +1110,9 @@
                 "{{STATUS_ID}}"
               ]
             }
-          },
-          "response": []
+          }
         }
-      ],
-      "id": "f0561893-1a1f-403e-9377-6e1630c290bc"
+      ]
     },
     {
       "name": "Tickets",
@@ -1247,7 +1123,6 @@
             {
               "listen": "test",
               "script": {
-                "id": "58afd349-2944-4997-b3cc-d6fd786f60ab",
                 "exec": [
                   "pm.test('it should response 200 status code', () => {\r",
                   "    pm.expect(pm.response).to.have.status(200);\r",
@@ -1279,23 +1154,27 @@
                   "            // enum status: OPEN | IN_PROGRESS | RESOLVED\r",
                   "            pm.expect(ticket.status).to.be.oneOf(['OPEN', 'IN_PROGRESS', 'RESOLVED']);\r",
                   "\r",
-                  "            pm.expect(ticket.description).to.be.a('string').and.not.empty;\r",
+                  "            pm.expect(ticket.problem).to.be.a('string').and.not.empty;\r",
+                  "            pm.expect(ticket.problemDetail).to.be.a('string').and.not.empty;\r",
                   "            pm.expect(ticket.isPublished).to.be.a('boolean');\r",
                   "        });\r",
                   "    }\r",
                   "});\r",
                   ""
                 ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript"
               }
             }
           ],
-          "id": "a062daa2-9209-4074-881b-e7d1ceb8e5fd",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "auth": {
               "type": "bearer",
@@ -1324,8 +1203,7 @@
                 "tickets"
               ]
             }
-          },
-          "response": []
+          }
         },
         {
           "name": "Create New Ticket",
@@ -1333,7 +1211,6 @@
             {
               "listen": "test",
               "script": {
-                "id": "cbb86f78-7ee5-40d4-ad5b-9cb0da3c0ef9",
                 "exec": [
                   "pm.test('it should response 201 status code', () => {\r",
                   "    pm.expect(pm.response).to.have.status(201);\r",
@@ -1366,23 +1243,27 @@
                   "    // enum status: OPEN | IN_PROGRESS | RESOLVED\r",
                   "    pm.expect(ticket.status).to.be.oneOf(['OPEN', 'IN_PROGRESS', 'RESOLVED']);\r",
                   "\r",
-                  "    pm.expect(ticket.description).to.be.a('string');\r",
+                  "    pm.expect(ticket.problem).to.be.a('string');\r",
+                  "    pm.expect(ticket.problemDetail).to.be.a('string');\r",
                   "\r",
                   "    // simpan ID untuk update/delete berikutnya\r",
                   "    pm.environment.set('TICKET_ID', ticket.id);\r",
                   "});\r",
                   ""
                 ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript"
               }
             }
           ],
-          "id": "1bc2df4a-3cf9-4ab0-82a8-a6e90b8c6d2d",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "auth": {
               "type": "bearer",
@@ -1420,8 +1301,7 @@
                 "tickets"
               ]
             }
-          },
-          "response": []
+          }
         },
         {
           "name": "Get Ticket By ID",
@@ -1429,7 +1309,6 @@
             {
               "listen": "test",
               "script": {
-                "id": "58afd349-2944-4997-b3cc-d6fd786f60ab",
                 "exec": [
                   "pm.test('it should response 200 status code', () => {\r",
                   "    pm.expect(pm.response).to.have.status(200);\r",
@@ -1461,20 +1340,24 @@
                   "    // enum status: OPEN | IN_PROGRESS | RESOLVED\r",
                   "    pm.expect(ticket.status).to.be.oneOf(['OPEN', 'IN_PROGRESS', 'RESOLVED']);\r",
                   "\r",
-                  "    pm.expect(ticket.description).to.be.a('string');\r",
+                  "    pm.expect(ticket.problem).to.be.a('string');\r",
+                  "    pm.expect(ticket.problemDetail).to.be.a('string');\r",
                   "});\r",
                   ""
                 ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript"
               }
             }
           ],
-          "id": "d12e1127-96bb-47b0-af2f-17b59f3df779",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "auth": {
               "type": "bearer",
@@ -1504,8 +1387,7 @@
                 "{{TICKET_ID}}"
               ]
             }
-          },
-          "response": []
+          }
         },
         {
           "name": "Get Ticket By Machine ID",
@@ -1513,7 +1395,6 @@
             {
               "listen": "test",
               "script": {
-                "id": "58afd349-2944-4997-b3cc-d6fd786f60ab",
                 "exec": [
                   "pm.test('it should response 200 status code', () => {\r",
                   "    pm.expect(pm.response).to.have.status(200);\r",
@@ -1545,23 +1426,27 @@
                   "            // enum status: OPEN | IN_PROGRESS | RESOLVED\r",
                   "            pm.expect(ticket.status).to.be.oneOf(['OPEN', 'IN_PROGRESS', 'RESOLVED']);\r",
                   "\r",
-                  "            pm.expect(ticket.description).to.be.a('string').and.not.empty;\r",
+                  "            pm.expect(ticket.problem).to.be.a('string').and.not.empty;\r",
+                  "            pm.expect(ticket.problemDetail).to.be.a('string').and.not.empty;\r",
                   "            pm.expect(ticket.isPublished).to.be.a('boolean');\r",
                   "        });\r",
                   "    }\r",
                   "});\r",
                   ""
                 ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript"
               }
             }
           ],
-          "id": "d478204c-4749-4083-abb2-d3098b66c6a3",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "auth": {
               "type": "bearer",
@@ -1592,8 +1477,7 @@
                 "tickets"
               ]
             }
-          },
-          "response": []
+          }
         },
         {
           "name": "Update Ticket By ID",
@@ -1601,7 +1485,6 @@
             {
               "listen": "test",
               "script": {
-                "id": "1bd41649-5400-4834-8351-4ef0254b3844",
                 "exec": [
                   "pm.test('it should response 200 status code', () => {\r",
                   "    pm.expect(pm.response).to.have.status(200);\r",
@@ -1631,20 +1514,24 @@
                   "    pm.expect(ticket.priority).to.be.oneOf(['LOW', 'MEDIUM', 'HIGH']);\r",
                   "    pm.expect(ticket.status).to.be.oneOf(['OPEN', 'IN_PROGRESS', 'RESOLVED']);\r",
                   "\r",
-                  "    pm.expect(ticket.description).to.be.a('string');\r",
+                  "    pm.expect(ticket.problem).to.be.a('string');\r",
+                  "    pm.expect(ticket.problemDetail).to.be.a('string');\r",
                   "});\r",
                   ""
                 ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript"
               }
             }
           ],
-          "id": "f2454482-b110-4164-bdff-b848b975c1c4",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "auth": {
               "type": "bearer",
@@ -1683,8 +1570,7 @@
                 "{{TICKET_ID}}"
               ]
             }
-          },
-          "response": []
+          }
         },
         {
           "name": "Delete Ticket By ID",
@@ -1692,7 +1578,6 @@
             {
               "listen": "test",
               "script": {
-                "id": "898d8bc3-60ab-415f-adb1-f1aaf415dbcf",
                 "exec": [
                   "pm.test('it should response 200 status code', () => {\r",
                   "    pm.expect(pm.response).to.have.status(200);\r",
@@ -1731,16 +1616,19 @@
                   "});\r",
                   ""
                 ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript"
               }
             }
           ],
-          "id": "a07fe0ed-5e0a-414c-bfe7-d22580d2ebad",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "auth": {
               "type": "bearer",
@@ -1770,60 +1658,29 @@
                 "{{TICKET_ID}}"
               ]
             }
-          },
-          "response": []
+          }
         }
-      ],
-      "id": "d7b59c45-b069-4dd5-ac8c-ee7987351f3d"
-    }
-  ],
-  "event": [
-    {
-      "listen": "prerequest",
-      "script": {
-        "id": "c968142c-730b-49ea-80b2-0c54171bc567",
-        "type": "text/javascript",
-        "requests": {},
-        "exec": [
-          ""
-        ]
-      }
-    },
-    {
-      "listen": "test",
-      "script": {
-        "id": "6c02ed43-2694-4931-bb27-c860c05976f0",
-        "type": "text/javascript",
-        "requests": {},
-        "exec": [
-          ""
-        ]
-      }
+      ]
     }
   ],
   "variable": [
     {
-      "id": "9c04acc8-9ada-40f9-9c83-6d676dcd9bd2",
       "key": "BASE_URL",
       "value": "https://template.postman-echo.com"
     },
     {
-      "id": "e8aff0c5-e6f2-4921-ad78-28fdf54e26c5",
       "key": "ACCESS_TOKEN",
       "value": ""
     },
     {
-      "id": "068e3ed9-bcd4-4ce1-9341-2f82ad6a123b",
       "key": "MACHINE_ID",
       "value": ""
     },
     {
-      "id": "fbbc6847-5fae-46b7-a9c5-9dbad3c21bfa",
       "key": "STATUS_ID",
       "value": ""
     },
     {
-      "id": "5af974d7-96f3-48ca-922a-dc360ba95948",
       "key": "TICKET_ID",
       "value": ""
     }
