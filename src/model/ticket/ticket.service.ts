@@ -1,5 +1,5 @@
 import { HttpError } from '../../utils/httpError';
-import { findMachineByIdService } from '../machine/machine.service';
+import { findMachineByProductIdService } from '../machine/machine.service';
 import { createTicket, deleteTicketById, findLastTicket, findTicketById, findTicketsByMachineId, updateTicket } from './ticket.repository';
 import { TTicketInput } from './ticket.validator';
 
@@ -20,8 +20,8 @@ export const findTicketsByMachineIdService = async (machineId: string) => {
 };
 
 export const createTicketService = async ({ data }: { data: TTicketInput }) => {
-	const { machineId, problem, priority, status, problemDetail, isPublished } = data;
-	await findMachineByIdService(machineId);
+	const { productId, problem, priority, status, problemDetail, isPublished } = data;
+	await findMachineByProductIdService(productId);
 
 	const lastTicket = await findLastTicket();
 	const nextNumber = (lastTicket?.ticketNumber || 0) + 1;
@@ -30,15 +30,15 @@ export const createTicketService = async ({ data }: { data: TTicketInput }) => {
 	return await createTicket({
 		id: formattedId,
 		ticketNumber: nextNumber,
-		data: { machineId, problem, priority, status, problemDetail, isPublished },
+		data: { productId, problem, priority, status, problemDetail, isPublished },
 	});
 };
 
 export const updateTicketService = async ({ ticketId, data }: { ticketId: string; data: TTicketInput }) => {
-	const { machineId, problem, priority, status, problemDetail, isPublished } = data;
-	await findMachineByIdService(machineId);
+	const { productId, problem, priority, status, problemDetail, isPublished } = data;
+	await findMachineByProductIdService(productId);
 	await findTicketByIdService(ticketId);
-	return await updateTicket(ticketId, { machineId, problem, priority, status, problemDetail, isPublished });
+	return await updateTicket(ticketId, { productId, problem, priority, status, problemDetail, isPublished });
 };
 
 export const deleteTicketService = async ({ ticketId }: { ticketId: string }) => {
