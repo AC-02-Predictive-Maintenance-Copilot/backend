@@ -1,13 +1,17 @@
 import { comparePassword, hashPassword } from '../../lib/bcrypt';
-import { createUser, findUserByEmail, findUserById } from './auth.repository';
+import { createUser, findUserByEmail, findUserById, findUserByUsername } from './auth.repository';
 import { signToken } from '../../lib/jwt';
 import { HttpError } from '../../utils/httpError';
 
 export const registerService = async ({ name, username, email, password }: { name: string; username: string; email: string; password: string }) => {
-	const existing = await findUserByEmail(email);
-
-	if (existing) {
+	const existingEmail = await findUserByEmail(email);
+	if (existingEmail) {
 		throw new HttpError('Email sudah terdaftar', 409);
+	}
+
+	const existingUsername = await findUserByUsername(email);
+	if (existingUsername) {
+		throw new HttpError('Username sudah terdaftar', 409);
 	}
 
 	const hashed = await hashPassword({ password });
