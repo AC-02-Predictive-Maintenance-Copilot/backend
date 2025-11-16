@@ -21,15 +21,15 @@ export const getTicketByMachineIdHandler = async (req: Request, res: Response) =
 };
 
 export const createTicketHandler = async (req: Request, res: Response) => {
-	const { machineId, priority, status, description } = req.body;
-	const ticket = await createTicketService({ data: { machineId, priority, status, description } });
+	const { machineId, problem, priority, status, problemDetail, isPublished } = req.body;
+	const ticket = await createTicketService({ data: { machineId, problem, priority, status, problemDetail, isPublished } });
 	return successRes({ res, message: 'Berhasil menambahkan tiket baru', data: { ticket }, status: 201 });
 };
 
 export const updateTicketHandler = async (req: Request, res: Response) => {
 	const { id } = req.params;
-	const { machineId, priority, status, description } = req.body;
-	const ticket = await updateTicketService({ ticketId: id, data: { machineId, priority, status, description } });
+	const { machineId, problem, priority, status, problemDetail, isPublished } = req.body;
+	const ticket = await updateTicketService({ ticketId: id, data: { machineId, problem, priority, status, problemDetail, isPublished } });
 	return successRes({ res, data: { ticket }, message: 'Data tiket berhasil diperbarui' });
 };
 

@@ -76,15 +76,20 @@ model MachineAnalysis {
 }
 
 model Ticket {
-  id          String    @id @default(uuid())
-  machineId   String    @map("machine_id")
-  priority    EPriority
-  status      EStatus
-  description String
-  isPublished Boolean   @default(false) @map("is_published")
+  id            String    @id @default(uuid())
+  ticketNumber  Int       @default(0) @map("ticket_number")
+  machineId     String    @map("machine_id")
+  problem       String
+  priority      EPriority
+  status        EStatus
+  problemDetail String    @map("problem_detail") @db.Text
+  isPublished   Boolean   @default(false) @map("is_published")
 
   // Relasi ke Machine
   machine Machine @relation(fields: [machineId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("tickets")
 }
