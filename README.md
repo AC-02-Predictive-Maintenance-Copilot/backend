@@ -523,7 +523,12 @@ Authorization: Bearer <token>
 ```json
 {
   "data": {
-    "tickets": []
+    "tickets": [
+      { 
+        ...,
+        machine: {}
+      }
+    ]
   }
 }
 ```
@@ -541,7 +546,9 @@ Authorization: Bearer <token>
   "machineId": "uuid",
   "priority": "HIGH",
   "status": "OPEN",
-  "description": "Mesin mengalami suara berisik."
+  "problem": "Mesin mengalami suara berisik.",
+  "problemDetail": "Mesin mengalami suara berisik.",
+  "isPublished": true,
 }
 ```
 
@@ -552,11 +559,13 @@ Authorization: Bearer <token>
   "message": "Berhasil membuat ticket baru",
   "data": {
     "ticket": {
-      "id": "uuid",
+      "id": "id",
       "machineId": "uuid",
       "priority": "HIGH",
       "status": "OPEN",
-      "description": "Mesin mengalami suara berisik."
+      "problem": "Mesin mengalami suara berisik.",
+      "problemDetail": "Mesin mengalami suara berisik.",
+      "isPublished": true
     }
   }
 }
