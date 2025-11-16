@@ -1,5 +1,5 @@
 import { comparePassword, hashPassword } from '../../lib/bcrypt';
-import { createUser, findUserByEmail } from './auth.repository';
+import { createUser, findUserByEmail, findUserById } from './auth.repository';
 import { signToken } from '../../lib/jwt';
 import { HttpError } from '../../utils/httpError';
 
@@ -40,4 +40,8 @@ export const loginService = async ({ email, password }: { email: string; passwor
 		},
 		token,
 	};
+};
+
+export const getAuthUserService = async (id: string) => {
+	const user = await findUserById(id);
 };

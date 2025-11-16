@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import { successRes } from '../../utils/response';
-import { loginService, registerService } from './auth.service';
+import { errorRes, successRes } from '../../utils/response';
+import { getAuthUserService, loginService, registerService } from './auth.service';
+import { AuthRequest } from '../../middleware/auth';
 
 export const registerHandler = async (req: Request, res: Response) => {
 	const { name, username, email, password } = req.body;
@@ -24,4 +25,10 @@ export const loginHandler = async (req: Request, res: Response) => {
 			user: { id: user.id, name: user.name, email: user.email },
 		},
 	});
+};
+
+export const getAuthUserHandler = async (req: AuthRequest, res: Response) => {
+	if (!req.user) return errorRes({ res, message: 'User tidak ditemukan', status: 404 });
+	const user = await getAuthUserService(req.user.id);
+	return successRes({ res, data: { user } });
 };

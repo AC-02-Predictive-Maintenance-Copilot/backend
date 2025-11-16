@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { validateBody } from '../../middleware/validate';
 import { loginSchema, registerSchema } from './auth.validator';
-import { loginHandler, registerHandler } from './auth.controller';
+import { getAuthUserHandler, loginHandler, registerHandler } from './auth.controller';
 import { loginRateLimiter } from './auth.limiter';
 import { AuthRequest, requireAuth } from '../../middleware/auth';
 import { createRateLimiter } from '../../middleware/rateLimiter';
@@ -21,8 +21,6 @@ router.post('/register', validateBody(registerSchema), registerHandler);
 
 router.post('/login', loginRateLimiter, validateBody(loginSchema), loginHandler);
 
-router.get('/me', requireAuth, async ({ user }: AuthRequest, res) => {
-	return successRes({ res, data: user });
-});
+router.get('/me', requireAuth, getAuthUserHandler);
 
 export default router;
