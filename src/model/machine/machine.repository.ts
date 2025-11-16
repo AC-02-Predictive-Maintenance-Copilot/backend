@@ -8,6 +8,11 @@ export const findMachineById = async (id: string) =>
 		where: { id },
 	});
 
+export const findMachineByProductId = async (productId: string) =>
+	await prisma.machine.findUnique({
+		where: { productId },
+	});
+
 export const createMachine = async (data: TMachineInput) => await prisma.machine.create({ data });
 
 export const updateMachine = async (id: string, data: TMachineInput) =>

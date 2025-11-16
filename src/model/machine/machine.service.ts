@@ -1,9 +1,14 @@
 import { HttpError } from '../../utils/httpError';
 import { deleteTicketsByMachineId } from '../ticket/ticket.repository';
-import { deleteMachine, deleteStatusesByMachineId, findMachineById } from './machine.repository';
+import { deleteMachine, deleteStatusesByMachineId, findMachineById, findMachineByProductId } from './machine.repository';
 
 export const findMachineByIdService = async (machineId: string) => {
 	const machine = await findMachineById(machineId);
+	if (!machine) throw new HttpError('Mesin tidak ditemukan', 404);
+};
+
+export const findMachineByProductIdService = async (productId: string) => {
+	const machine = await findMachineByProductId(productId);
 	if (!machine) throw new HttpError('Mesin tidak ditemukan', 404);
 };
 

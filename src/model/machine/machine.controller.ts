@@ -33,10 +33,7 @@ export const getMachineByIdHandler = async (req: Request, res: Response) => {
 
 export const createMachineHandler = async (req: Request, res: Response) => {
 	const { productId, name } = req.body;
-	const machine = await createMachine({
-		productId,
-		name,
-	});
+	const machine = await createMachine({ productId, name });
 	return successRes({ res, message: 'Berhasil menambahkan mesin baru', data: { machine }, status: 201 });
 };
 
@@ -49,10 +46,7 @@ export const updateMachineHandler = async (req: Request, res: Response) => {
 		return errorRes({ res, message: 'Mesin tidak ditemukan', status: 404 });
 	}
 
-	const machine = await updateMachine(id, {
-		productId,
-		name,
-	});
+	const machine = await updateMachine(id, { productId, name });
 	return successRes({ res, data: { machine }, message: 'Data mesin berhasil diperbarui' });
 };
 

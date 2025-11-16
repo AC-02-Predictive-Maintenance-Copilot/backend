@@ -16,14 +16,37 @@ export const findTicketsByMachineId = async (machineId: string) =>
 	});
 
 export const createTicket = async ({ id, ticketNumber, data }: { id: string; ticketNumber: number; data: TTicketInput }) => {
-	return await prisma.ticket.create({ data: { ...data, id, ticketNumber } });
+	const { productId, ...restData } = data;
+	return prisma.ticket.create({
+		data: {
+			...restData,
+			id,
+			ticketNumber,
+			machine: {
+				connect: { productId },
+			},
+		},
+		include: {
+			machine: true,
+		},
+	});
 };
 
-export const updateTicket = async (ticketId: string, data: TTicketInput) =>
-	await prisma.ticket.update({
+export const updateTicket = async (ticketId: string, data: TTicketInput) => {
+	const { productId, ...restData } = data;
+	return await prisma.ticket.update({
 		where: { id: ticketId },
-		data,
+		data: {
+			...restData,
+			machine: {
+				connect: { productId },
+			},
+		},
+		include: {
+			machine: true,
+		},
 	});
+};
 
 export const deleteTicketById = async (ticketId: string) =>
 	await prisma.ticket.delete({
