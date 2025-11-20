@@ -6,6 +6,7 @@ export const findAllMachines = async () => await prisma.machine.findMany({});
 export const findMachineById = async (id: string) =>
 	await prisma.machine.findUnique({
 		where: { id },
+		include: { statuses: true },
 	});
 
 export const findMachineByProductId = async (productId: string) =>
