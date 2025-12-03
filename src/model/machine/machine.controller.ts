@@ -75,7 +75,7 @@ export const checkMachineHandler = async (req: Request, res: Response) => {
 	}
 
 	const diagnosis = await checkMachineWithFastAPI(payload);
-	const agentMessage = await generateAgentResponse(diagnosis);
+	const agentMessage = await generateAgentResponse(diagnosis.llm_prompt);
 
 	if (!agentMessage) {
 		return errorRes({

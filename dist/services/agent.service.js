@@ -17,7 +17,7 @@ const generateAgentResponse = async (diagnosis) => {
         model: 'llama-3.3-70b-versatile',
         messages: [
             { role: 'system', content: 'Anda adalah AI Maintenance Engineer berpengalaman 20 tahun.' },
-            { role: 'user', content: diagnosis.llmPrompt },
+            { role: 'user', content: diagnosis },
         ],
         temperature: 0.2,
     });
