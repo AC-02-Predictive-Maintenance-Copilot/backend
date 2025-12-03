@@ -8,6 +8,11 @@ if (!FASTAPI_URL) {
 }
 
 export const checkMachineWithFastAPI = async (payload: TCheckMachine) => {
-	const { data } = await axios.post(FASTAPI_URL, payload);
+	const { data } = await axios.post(FASTAPI_URL, payload, {
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${process.env.HUGGINGFACE_API_KEY}`,
+		},
+	});
 	return data;
 };
