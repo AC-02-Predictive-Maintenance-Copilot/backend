@@ -1,5 +1,6 @@
 import prisma from '../../lib/prisma';
-import { TCheckMachine, TMachineInput, TStatusInput } from './machine.validator';
+import { TMachineInput, TStatusInput } from './machine.validator';
+import type { MachineAnalysis } from '@prisma/client';
 
 export const findAllMachines = async () => await prisma.machine.findMany({});
 
@@ -27,11 +28,16 @@ export const deleteMachine = async (id: string) =>
 		where: { id },
 	});
 
-export const saveMachineAnalysis = async ({ statusId, diagnosis, agentMessage }: { statusId: string; diagnosis: TCheckMachine; agentMessage: string }) => {
+export const saveMachineAnalysis = async ({ statusId, diagnosis, agentMessage }: { statusId: string; diagnosis: MachineAnalysis; agentMessage: string }) => {
 	return prisma.machineAnalysis.create({
 		data: {
-			diagnosisJson: diagnosis,
-			agentMessage,
+			healthScore: diagnosis.healthScore,
+			riskProbability: diagnosis.riskProbability,
+			status: diagnosis.status,
+			diagnosis: diagnosis.diagnosis,
+			isAnomaly: diagnosis.isAnomaly,
+			llmPrompt: diagnosis.llmPrompt,
+			llmResponse: agentMessage,
 			machineStatus: { connect: { id: statusId } },
 		},
 	});

@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
@@ -25,7 +25,7 @@ enum EStatus {
 }
 
 model Machine {
-  id        String @id @default(uuid())
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
   productId String @unique @map("product_id")
   name      String
 
@@ -42,7 +42,7 @@ model Machine {
 }
 
 model MachineStatus {
-  id                 String   @id @default(uuid())
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
   machineId          String   @map("machine_id")
   type               String
   airTemperature     Float    @map("air_temperature")
@@ -63,10 +63,15 @@ model MachineStatus {
 }
 
 model MachineAnalysis {
-  id            String @id @default(uuid())
-  statusId      String @map("status_id")
-  diagnosisJson Json   @map("diagnosis_json")
-  agentMessage  String @map("agent_message")
+  id              String  @id @default(auto()) @map("_id") @db.ObjectId
+  statusId        String  @map("status_id")
+  healthScore     Int     @map("health_score")
+  riskProbability Float   @map("risk_probability")
+  status          String
+  diagnosis       String
+  isAnomaly       Boolean @map("is_anomaly")
+  llmPrompt       String  @map("llm_prompt")
+  llmResponse     String  @map("llm_response")
 
   createdAt DateTime @default(now()) @map("created_at")
 
@@ -76,13 +81,13 @@ model MachineAnalysis {
 }
 
 model Ticket {
-  id            String    @id @default(uuid())
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
   ticketNumber  Int       @default(0) @map("ticket_number")
   machineId     String    @map("machine_id")
   problem       String
   priority      EPriority
   status        EStatus
-  problemDetail String    @map("problem_detail") @db.Text
+  problemDetail String    @map("problem_detail")
   isPublished   Boolean   @default(false) @map("is_published")
 
   // Relasi ke Machine
@@ -95,7 +100,7 @@ model Ticket {
 }
 
 model User {
-  id         String  @id @default(uuid())
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
   name       String
   username   String  @unique
   email      String  @unique

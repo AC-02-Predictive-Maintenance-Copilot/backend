@@ -1,0 +1,8 @@
+{
+	"health_score": 89,
+	"risk_probability": 0.05,
+	"status": "WARNING",
+	"diagnosis": "Unknown Anomaly Pattern",
+	"is_anomaly": true,
+	"llm_prompt": "\n            PERAN: Anda adalah Asisten Ahli Maintenance Senior. Nada bicara: Waspada, Analitis.\n            \n            SITUASI: Sistem mendeteksi ANOMALI pada mesin ini.\n            - Skor Kesehatan: 89/100 (Perlu Perhatian)\n            - Deteksi Anomali: YA (Pola data tidak biasa/Outlier)\n            - Prediksi Risiko Kegagalan: Rendah (Belum tentu rusak, tapi aneh)\n            \n            \n        DATA SENSOR TERKINI:\n        - Suhu Udara: 300.0 K\n        - Suhu Proses: 320.0 K\n        - Kecepatan Putar (RPM): 1500\n        - Torsi: 50.0 Nm\n        - Keausan Alat: 100 min\n        \n            \n            TUGAS ANDA:\n            1. Beritahu teknisi bahwa mesin menunjukkan perilaku yang tidak biasa (anomali).\n            2. Tekankan bahwa belum ada risiko kegagalan spesifik yang terdeteksi, namun pola sensornya menyimpang dari normal.\n            3. Sarankan mereka untuk melakukan pengecekan manual atau memantau mesin lebih ketat dalam 24 jam ke depan.\n            "
+}
