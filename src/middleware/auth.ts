@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
-import { JWT_SECRET } from '../lib/jwt';
+import { JWT_SECRET, verifyToken } from '../lib/jwt';
 
 if (!JWT_SECRET) {
 	throw new Error('❌ JWT_SECRET is not defined in environment variables');
@@ -15,12 +14,10 @@ export function requireAuth(req: AuthRequest, res: Response, next: NextFunction)
 	if (!header?.startsWith('Bearer ')) {
 		return res.status(401).json({ message: 'Token tidak ditemukan' });
 	}
-	const token = header.split(' ')[1];
-	try {
-		const decoded = jwt.verify(token, JWT_SECRET) as { id: string; email: string };
-		req.user = decoded;
-		next();
-	} catch {
+	const decoded = verifyToken(header.split(' ')[1]);
+	if (!decoded) {
 		return res.status(401).json({ message: 'Token tidak valid' });
 	}
+	req.user = decoded;
+	next();
 }

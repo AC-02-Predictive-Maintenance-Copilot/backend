@@ -16,5 +16,11 @@ function signToken(payload, expiresIn = '1d') {
     return jsonwebtoken_1.default.sign(payload, exports.JWT_SECRET, options);
 }
 function verifyToken(token) {
-    return jsonwebtoken_1.default.verify(token, exports.JWT_SECRET);
+    try {
+        const decoded = jsonwebtoken_1.default.verify(token, exports.JWT_SECRET);
+        return decoded;
+    }
+    catch {
+        return null;
+    }
 }

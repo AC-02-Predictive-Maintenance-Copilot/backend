@@ -11,6 +11,11 @@ export function signToken(payload: string | object | Buffer, expiresIn = '1d'): 
 	return jwt.sign(payload, JWT_SECRET, options);
 }
 
-export function verifyToken<T = any>(token: string): T {
-	return jwt.verify(token, JWT_SECRET) as T;
+export function verifyToken(token: string) {
+	try {
+		const decoded = jwt.verify(token, JWT_SECRET) as { id: string; email: string };
+		return decoded;
+	} catch {
+		return null;
+	}
 }

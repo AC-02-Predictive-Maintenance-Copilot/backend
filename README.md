@@ -127,6 +127,34 @@ PORT diambil dari `process.env.PORT`.
 
 ---
 
+## **🤖 6. AI Chat WebSocket**
+
+| Event Type         | Deskripsi                                        |
+| ------------------ | ------------------------------------------------ |
+| `history`          | Data riwayat chat user saat pertama kali connect |
+| `message`          | Respons AI terhadap pesan user                   |
+| `error`            | Error message dari server                        |
+
+---
+
+### **WebSocket Endpoint**
+
+| Protocol | Endpoint   | Otorisasi | Deskripsi                       |
+| -------- | ---------- | --------- | ------------------------------- |
+| WS       | `/ws/chat` | JWT       | Chat dengan AI secara real-time |
+
+---
+
+### **Authentication (Mandatory)**
+
+| Opsi              | Cara Kirim                    |
+| ----------------- | ----------------------------- |
+| Header            | `Authorization: Bearer <JWT>` |
+
+> Tanpa JWT → koneksi akan ditutup otomatis
+
+---
+
 # 📘 **Endpoint Detail & Response Lengkap**
 
 ---
@@ -577,6 +605,101 @@ Authorization: Bearer <token>
 ### DELETE `/api/v1/tickets/:id`
 
 ---
+
+# 6) 🤖 **AI Chat WebSocket**
+
+## **6.1 Connect to AI Chat**
+
+### GET `ws://{{ BASE_URL }}/ws/chat`
+
+#### Headers Required
+
+| Header                          | Deskripsi                        |
+| ------------------------------- | -------------------------------- |
+| `Authorization: Bearer <token>` | Token JWT user untuk autentikasi |
+
+#### Example (Postman / Client)
+
+```
+Authorization: Bearer eyJhbGciOi...
+```
+
+Jika token invalid → koneksi akan otomatis ditutup ❌
+
+---
+
+## **6.2 Initial Data Received on Connect**
+
+Saat WebSocket berhasil terhubung:
+
+* Server mengirim **riwayat chat user**
+* Server mengirim **konteks mesin** milik user
+
+#### Response: History Chat
+
+```json
+{
+  "type": "history",
+  "data": [
+    {
+      "id": "msg_123",
+      "role": "USER",
+      "content": "Hai AI!",
+      "createdAt": "2025-12-01T10:05:00.000Z",
+      "user": {}
+    }
+  ]
+}
+```
+
+---
+
+## **6.3 Send Message to AI**
+
+### Payload Format
+
+```json
+"Pesan tekstual dari user"
+```
+
+> ⚠️ Bukan HTTP request, cukup kirim **message** via WebSocket
+
+---
+
+## **6.4 AI Response Message**
+
+Saat AI menjawab:
+
+```json
+{
+  "type": "message",
+  "role": "ASSISTANT",
+  "content": "Halo! Apakah ada mesin tertentu yang ingin Anda cek?"
+}
+```
+
+Response akan:
+
+* Disimpan ke database (Prisma)
+* Dikirim kembali ke WebSocket client
+
+---
+
+## **6.5 Error Cases**
+
+| Error                     | Kapan Terjadi                       |
+| ------------------------- | ----------------------------------- |
+| **Socket closed**         | Token tidak valid / tidak ada token |
+| **No response**           | API key OpenAI tidak dikonfigurasi  |
+| **Empty machine context** | User belum punya mesin terhubung    |
+
+Contoh error dari server:
+
+```json
+{
+  "error": "Unauthorized WebSocket"
+}
+```
 
 # 🧩 **Schemas & Validation**
 
