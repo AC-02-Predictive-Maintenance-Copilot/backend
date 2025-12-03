@@ -10,7 +10,12 @@ if (!exports.FASTAPI_URL) {
     throw new Error('❌ FASTAPI_URL is not defined in environment variables');
 }
 const checkMachineWithFastAPI = async (payload) => {
-    const { data } = await axios_1.default.post(exports.FASTAPI_URL, payload);
+    const { data } = await axios_1.default.post(exports.FASTAPI_URL, payload, {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${process.env.HUGGINGFACE_API_KEY}`,
+        },
+    });
     return data;
 };
 exports.checkMachineWithFastAPI = checkMachineWithFastAPI;
