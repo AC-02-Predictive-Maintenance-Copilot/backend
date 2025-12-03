@@ -536,7 +536,7 @@ Authorization: Bearer <token>
 
 ```json
 {
-  "machineId": "uuid",
+  "productId": "uuid",
   "priority": "HIGH",
   "status": "OPEN",
   "problem": "Mesin mengalami suara berisik.",
