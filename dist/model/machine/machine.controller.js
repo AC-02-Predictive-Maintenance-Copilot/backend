@@ -66,20 +66,12 @@ const checkMachineHandler = async (req, res) => {
             message: 'Gagal menghasilkan analisis dari AI',
         });
     }
-    const savedRecord = await (0, machine_repository_1.saveMachineAnalysis)({
+    const analysis = await (0, machine_repository_1.saveMachineAnalysis)({
         statusId,
         diagnosis,
         agentMessage,
     });
-    return (0, response_1.successRes)({
-        res,
-        message: 'Success',
-        data: {
-            mlDiagnosis: diagnosis,
-            aiAnalysis: agentMessage,
-            savedRecord,
-        },
-    });
+    return (0, response_1.successRes)({ res, message: 'Success', data: { analysis } });
 };
 exports.checkMachineHandler = checkMachineHandler;
 // Handlers machine status

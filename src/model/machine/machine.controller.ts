@@ -85,21 +85,13 @@ export const checkMachineHandler = async (req: Request, res: Response) => {
 		});
 	}
 
-	const savedRecord = await saveMachineAnalysis({
+	const analysis = await saveMachineAnalysis({
 		statusId,
 		diagnosis,
 		agentMessage,
 	});
 
-	return successRes({
-		res,
-		message: 'Success',
-		data: {
-			mlDiagnosis: diagnosis,
-			aiAnalysis: agentMessage,
-			savedRecord,
-		},
-	});
+	return successRes({ res, message: 'Success', data: { analysis } });
 };
 
 // Handlers machine status
