@@ -81,7 +81,7 @@ model MachineAnalysis {
 }
 
 model Ticket {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  id            String    @id @map("_id")
   ticketNumber  Int       @default(0) @map("ticket_number")
   machineId     String    @map("machine_id")
   problem       String
