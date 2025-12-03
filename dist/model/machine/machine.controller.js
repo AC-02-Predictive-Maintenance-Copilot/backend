@@ -58,7 +58,7 @@ const checkMachineHandler = async (req, res) => {
         });
     }
     const diagnosis = await (0, fastapi_service_1.checkMachineWithFastAPI)(payload);
-    const agentMessage = await (0, agent_service_1.generateAgentResponse)(diagnosis);
+    const agentMessage = await (0, agent_service_1.generateAgentResponse)(diagnosis.llm_prompt);
     if (!agentMessage) {
         return (0, response_1.errorRes)({
             res,
