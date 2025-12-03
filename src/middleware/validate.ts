@@ -1,6 +1,6 @@
-import { ZodObject, ZodError, ZodTypeAny } from 'zod';
+import { ZodError, ZodTypeAny } from 'zod';
 import { Request, Response, NextFunction } from 'express';
-import { errorRes } from '../utils/response.js';
+import { errorRes } from '../utils/response';
 
 export const idRegExp = new RegExp('^[0-9a-fA-F]{24}$');
 
@@ -13,7 +13,7 @@ export const validateBody = (schema: ZodTypeAny) => (req: Request, res: Response
 			return errorRes({
 				res,
 				message: 'Validation error',
-				data: err.issues.map((e) => ({
+				errors: err.issues.map((e) => ({
 					path: e.path.join('.'),
 					message: e.message,
 				})),
