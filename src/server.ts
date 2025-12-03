@@ -1,10 +1,12 @@
 import 'dotenv/config';
+import http from 'http';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import { router } from './routes/index';
 import { errorHandler } from './middleware/errorHandler';
+import { initializeChatWebSocket } from './websocket/chat.gateway';
 
 const app = express();
 const port = process.env.PORT;
@@ -17,6 +19,13 @@ app.use(morgan('dev'));
 
 app.use('/api/v1', router);
 
+const server = http.createServer(app);
+initializeChatWebSocket(server);
+
+server.listen(port, () => {
+	console.log(`🚀 Server ready on http://localhost:${port}`);
+});
+
 app.use((req, res) => {
 	res.status(404).json({
 		message: 'Route tidak ditemukan',
@@ -26,5 +35,3 @@ app.use((req, res) => {
 });
 
 app.use(errorHandler);
-
-app.listen(port, () => console.log(`🚀 Server ready on http://localhost:${port}`));

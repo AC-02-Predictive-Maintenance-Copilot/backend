@@ -1,4 +1,3 @@
-import { MachineAnalysis } from '@prisma/client';
 import Groq from 'groq-sdk';
 
 const GROQ_API_KEY = process.env.GROQ_API_KEY as string;
@@ -11,15 +10,32 @@ const client = new Groq({
 	apiKey: GROQ_API_KEY,
 });
 
-export const generateAgentResponse = async (diagnosis: string) => {
+const model = 'llama-3.3-70b-versatile';
+const temperature = 0.2;
+const systemPrompt = 'Anda adalah AI Maintenance Engineer berpengalaman 20 tahun.';
+
+export const generateAgentResponse = async (content: string) => {
 	const response = await client.chat.completions.create({
-		model: 'llama-3.3-70b-versatile',
+		model,
 		messages: [
-			{ role: 'system', content: 'Anda adalah AI Maintenance Engineer berpengalaman 20 tahun.' },
-			{ role: 'user', content: diagnosis },
+			{ role: 'system', content: systemPrompt },
+			{ role: 'user', content },
 		],
-		temperature: 0.2,
+		temperature,
 	});
 
+	return response.choices[0].message.content;
+};
+
+export const generateAgentResponseWithContext = async (content: string, context: string) => {
+	const response = await client.chat.completions.create({
+		model,
+		messages: [
+			{ role: 'system', content: systemPrompt },
+			{ role: 'system', content: `Berikut adalah konteks tambahan yang mungkin berguna untuk menjawab pertanyaan:\n${context}` },
+			{ role: 'user', content },
+		],
+		temperature,
+	});
 	return response.choices[0].message.content;
 };

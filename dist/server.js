@@ -4,12 +4,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv/config");
+const http_1 = __importDefault(require("http"));
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
 const morgan_1 = __importDefault(require("morgan"));
 const index_1 = require("./routes/index");
 const errorHandler_1 = require("./middleware/errorHandler");
+const chat_gateway_1 = require("./websocket/chat.gateway");
 const app = (0, express_1.default)();
 const port = process.env.PORT;
 app.set('trust proxy', true);
@@ -18,6 +20,11 @@ app.use((0, cors_1.default)({ origin: process.env.CORS_ORIGIN?.split(',') || tru
 app.use(express_1.default.json({ limit: '1mb' }));
 app.use((0, morgan_1.default)('dev'));
 app.use('/api/v1', index_1.router);
+const server = http_1.default.createServer(app);
+(0, chat_gateway_1.initializeChatWebSocket)(server);
+server.listen(port, () => {
+    console.log(`🚀 Server ready on http://localhost:${port}`);
+});
 app.use((req, res) => {
     res.status(404).json({
         message: 'Route tidak ditemukan',
@@ -26,4 +33,3 @@ app.use((req, res) => {
     });
 });
 app.use(errorHandler_1.errorHandler);
-app.listen(port, () => console.log(`🚀 Server ready on http://localhost:${port}`));

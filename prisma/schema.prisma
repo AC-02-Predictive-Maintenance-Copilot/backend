@@ -24,6 +24,11 @@ enum EStatus {
   RESOLVED
 }
 
+enum EMessageRole {
+  USER
+  ASSISTANT
+}
+
 model Machine {
   id        String @id @default(auto()) @map("_id") @db.ObjectId
   productId String @unique @map("product_id")
@@ -109,8 +114,23 @@ model User {
   role       ERole   @default(ENGINEER)
   picture    String?
 
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  messages  Message[]
 
   @@map("users")
+}
+
+model Message {
+  id      String       @id @default(auto()) @map("_id") @db.ObjectId
+  role    EMessageRole
+  content String
+  userId  String       @map("user_id")
+
+  // Relasi ke Machine
+  user User @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("messages")
 }
