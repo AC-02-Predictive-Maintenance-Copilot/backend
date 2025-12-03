@@ -30,12 +30,12 @@ exports.deleteMachine = deleteMachine;
 const saveMachineAnalysis = async ({ statusId, diagnosis, agentMessage }) => {
     return prisma_1.default.machineAnalysis.create({
         data: {
-            healthScore: diagnosis.healthScore,
-            riskProbability: diagnosis.riskProbability,
+            healthScore: diagnosis.health_score,
+            riskProbability: diagnosis.risk_probability,
             status: diagnosis.status,
             diagnosis: diagnosis.diagnosis,
-            isAnomaly: diagnosis.isAnomaly,
-            llmPrompt: diagnosis.llmPrompt,
+            isAnomaly: diagnosis.is_anomaly,
+            llmPrompt: diagnosis.llm_prompt,
             llmResponse: agentMessage,
             machineStatus: { connect: { id: statusId } },
         },
