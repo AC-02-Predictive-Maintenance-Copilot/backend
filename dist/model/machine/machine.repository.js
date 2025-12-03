@@ -3,10 +3,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteStatusesByMachineId = exports.deleteStatus = exports.updateStatus = exports.createStatus = exports.findStatusById = exports.findStatusByMachineId = exports.findAllStatus = exports.saveMachineAnalysis = exports.deleteMachine = exports.updateMachine = exports.createMachine = exports.findMachineByProductId = exports.findMachineById = exports.findAllMachines = void 0;
+exports.deleteStatusesByMachineId = exports.deleteStatus = exports.updateStatus = exports.createStatus = exports.findStatusById = exports.findStatusByMachineId = exports.findAllStatus = exports.saveMachineAnalysis = exports.deleteMachine = exports.updateMachine = exports.createMachine = exports.findMachineByProductId = exports.findMachineById = exports.findAllMachinesWithRelations = exports.findAllMachines = void 0;
 const prisma_1 = __importDefault(require("../../lib/prisma"));
 const findAllMachines = async () => await prisma_1.default.machine.findMany({});
 exports.findAllMachines = findAllMachines;
+const findAllMachinesWithRelations = async () => await prisma_1.default.machine.findMany({
+    include: {
+        statuses: {
+            include: {
+                machineAnalysis: true,
+            },
+        },
+        tickets: true,
+    },
+});
+exports.findAllMachinesWithRelations = findAllMachinesWithRelations;
 const findMachineById = async (id) => await prisma_1.default.machine.findUnique({
     where: { id },
     include: { statuses: true },

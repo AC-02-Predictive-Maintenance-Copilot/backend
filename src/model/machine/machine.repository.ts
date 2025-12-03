@@ -3,6 +3,18 @@ import { TMachineInput, TStatusInput } from './machine.validator';
 
 export const findAllMachines = async () => await prisma.machine.findMany({});
 
+export const findAllMachinesWithRelations = async () =>
+	await prisma.machine.findMany({
+		include: {
+			statuses: {
+				include: {
+					machineAnalysis: true,
+				},
+			},
+			tickets: true,
+		},
+	});
+
 export const findMachineById = async (id: string) =>
 	await prisma.machine.findUnique({
 		where: { id },

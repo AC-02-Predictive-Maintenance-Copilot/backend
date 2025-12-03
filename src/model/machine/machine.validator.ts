@@ -1,8 +1,19 @@
+import { Prisma } from '@prisma/client';
 import { z } from 'zod';
 
 export type TMachineInput = z.infer<typeof machineSchema>;
 export type TStatusInput = z.infer<typeof statusSchema>;
 export type TCheckMachine = z.infer<typeof checkMachineSchema>;
+export type TMachineWithRelations = Prisma.MachineGetPayload<{
+	include: {
+		statuses: {
+			include: {
+				machineAnalysis: true;
+			};
+		};
+		tickets: true;
+	};
+}>;
 
 export const machineSchema = z.object({
 	productId: z.string().min(1, 'Product Id tidak boleh kosong'),

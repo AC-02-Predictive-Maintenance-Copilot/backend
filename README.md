@@ -155,6 +155,17 @@ PORT diambil dari `process.env.PORT`.
 
 ---
 
+## **🎫 7. Chat**
+
+| Method | Endpoint                       | Deskripsi                      |
+| ------ | ------------------------------ | ------------------------------ |
+| GET    | `/api/v1/chat`                 | Get 100 pesan terakhir         |
+| POST   | `/api/v1/chat`                 | Create pesan                   |
+| DELETE | `/api/v1/chat`                 | Delete semua pesan             |
+| DELETE | `/api/v1/chat/:id`             | Delete pesan berdasarkan id    |
+
+---
+
 # 📘 **Endpoint Detail & Response Lengkap**
 
 ---
@@ -700,6 +711,71 @@ Contoh error dari server:
   "error": "Unauthorized WebSocket"
 }
 ```
+
+---
+
+# 7) 🎫 **Chat API**
+
+## **7.1 Get Last 100 Messages**
+
+### GET `/api/v1/chat`
+
+#### Response
+
+```json
+{
+  "data": {
+    "messages": [
+      { 
+        ...,
+        user: {}
+      }
+    ]
+  }
+}
+```
+
+---
+
+## **7.2 Create Message**
+
+### POST `/api/v1/chat`
+
+#### Body
+
+```json
+{
+  "content": "Halo AI",
+}
+```
+
+#### Response
+
+```json
+{
+  "message": "Berhasil membuat pesan baru",
+  "data": {
+    "message": {
+      "id": "id",
+      ...
+    }
+  }
+}
+```
+
+---
+
+## **7.3 Delete All Message**
+
+### DELETE `/api/v1/chat`
+
+---
+
+## **7.4 Delete Message By ID**
+
+### DELETE `/api/v1/chat/:id`
+
+---
 
 # 🧩 **Schemas & Validation**
 

@@ -6,19 +6,19 @@ const ticket_repository_1 = require("./ticket.repository");
 const ticket_service_1 = require("./ticket.service");
 const getTicketHandler = async (_, res) => {
     const tickets = await (0, ticket_repository_1.findAllTickets)();
-    return (0, response_1.successRes)({ res, message: 'succses', data: { tickets } });
+    return (0, response_1.successRes)({ res, message: 'success', data: { tickets } });
 };
 exports.getTicketHandler = getTicketHandler;
 const getTicketByIdHandler = async (req, res) => {
     const { id } = req.params;
     const ticket = await (0, ticket_service_1.findTicketByIdService)(id);
-    return (0, response_1.successRes)({ res, message: 'succses', data: { ticket } });
+    return (0, response_1.successRes)({ res, message: 'success', data: { ticket } });
 };
 exports.getTicketByIdHandler = getTicketByIdHandler;
 const getTicketByMachineIdHandler = async (req, res) => {
     const { machineId } = req.params;
     const tickets = await (0, ticket_service_1.findTicketsByMachineIdService)(machineId);
-    return (0, response_1.successRes)({ res, message: 'succses', data: { tickets } });
+    return (0, response_1.successRes)({ res, message: 'success', data: { tickets } });
 };
 exports.getTicketByMachineIdHandler = getTicketByMachineIdHandler;
 const createTicketHandler = async (req, res) => {

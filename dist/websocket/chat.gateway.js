@@ -8,6 +8,9 @@ const ws_1 = require("ws");
 const prisma_1 = __importDefault(require("../lib/prisma"));
 const agent_service_1 = require("../services/agent.service");
 const jwt_1 = require("../lib/jwt");
+const message_repository_1 = require("../model/message/message.repository");
+const machine_repository_1 = require("../model/machine/machine.repository");
+const message_service_1 = require("../model/message/message.service");
 function initializeChatWebSocket(server) {
     const wss = new ws_1.WebSocketServer({ server, path: '/ws/chat' });
     wss.on('connection', async (socket, req) => {
@@ -18,21 +21,8 @@ function initializeChatWebSocket(server) {
         const userId = decoded?.id;
         if (!userId)
             return socket.close();
-        const history = await prisma_1.default.message.findMany({
-            where: { userId },
-            orderBy: { createdAt: 'asc' },
-            include: { user: true },
-        });
-        const machines = await prisma_1.default.machine.findMany({
-            include: {
-                statuses: {
-                    include: {
-                        machineAnalysis: true,
-                    },
-                },
-                tickets: true,
-            },
-        });
+        const history = await (0, message_repository_1.findAllMessages)(userId);
+        const machines = await (0, machine_repository_1.findAllMachinesWithRelations)();
         socket.send(JSON.stringify({
             type: 'history',
             data: history,
@@ -42,40 +32,7 @@ function initializeChatWebSocket(server) {
             await prisma_1.default.message.create({
                 data: { role: 'USER', content, userId },
             });
-            const machineContext = machines
-                .map((m) => {
-                const lastStatus = m.statuses?.[0];
-                const lastAnalysis = lastStatus?.machineAnalysis?.[0];
-                const relatedTickets = m.tickets;
-                const failures = relatedTickets
-                    .filter((t) => t.status !== 'RESOLVED')
-                    .map((t) => `[#${t.ticketNumber}] ${t.problem} (${t.status})`)
-                    .join('\n') || '-';
-                return `
-						🔧 MACHINE INFO
-						• Name: ${m.name}
-						• Product ID: ${m.productId}
-						• Last Update: ${lastStatus?.recordedAt.toISOString() ?? '-'}
-
-						📊 SENSOR METRICS (Latest)
-						• Air Temperature: ${lastStatus?.airTemperature ?? '-'} °C
-						• Process Temperature: ${lastStatus?.processTemperature ?? '-'} °C
-						• Rotational Speed: ${lastStatus?.rotationalSpeed ?? '-'} RPM
-						• Torque: ${lastStatus?.torque ?? '-'} Nm
-						• Tool Wear: ${lastStatus?.toolWear ?? '-'} minutes
-						• Target: ${lastStatus?.target ?? '-'}
-
-						🧠 AI ANALYSIS (Latest)
-						• Health Score: ${lastAnalysis?.healthScore ?? '-'} / 100
-						• Risk Probability: ${(lastAnalysis?.riskProbability ?? 0) * 100}% Chance
-						• Status: ${lastAnalysis?.status ?? 'UNKNOWN'}
-						• Diagnosis: ${lastAnalysis?.diagnosis ?? '-'}
-
-						⚠️ OPEN TICKETS
-						${failures}
-						`;
-            })
-                .join('\n\n====================\n\n');
+            const machineContext = await (0, message_service_1.getContextMessagesService)(machines);
             const aiReply = await (0, agent_service_1.generateAgentResponseWithContext)(content, machineContext);
             await prisma_1.default.message.create({
                 data: { role: 'ASSISTANT', content: aiReply ?? '', userId },
