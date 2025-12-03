@@ -71,7 +71,7 @@ const checkMachineHandler = async (req, res) => {
         diagnosis,
         agentMessage,
     });
-    return (0, response_1.successRes)({ res, message: 'Success', data: { analysis } });
+    return (0, response_1.successRes)({ res, message: 'success', data: { analysis } });
 };
 exports.checkMachineHandler = checkMachineHandler;
 // Handlers machine status

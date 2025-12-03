@@ -91,7 +91,7 @@ export const checkMachineHandler = async (req: Request, res: Response) => {
 		agentMessage,
 	});
 
-	return successRes({ res, message: 'Success', data: { analysis } });
+	return successRes({ res, message: 'success', data: { analysis } });
 };
 
 // Handlers machine status

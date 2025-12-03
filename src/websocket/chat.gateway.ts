@@ -3,6 +3,9 @@ import prisma from '../lib/prisma';
 import { AuthRequest } from '../middleware/auth';
 import { generateAgentResponseWithContext } from '../services/agent.service';
 import { verifyToken } from '../lib/jwt';
+import { findAllMessages } from '../model/message/message.repository';
+import { findAllMachinesWithRelations } from '../model/machine/machine.repository';
+import { getContextMessagesService } from '../model/message/message.service';
 
 export function initializeChatWebSocket(server: any) {
 	const wss = new WebSocketServer({ server, path: '/ws/chat' });
@@ -15,22 +18,9 @@ export function initializeChatWebSocket(server: any) {
 		const userId = decoded?.id;
 		if (!userId) return socket.close();
 
-		const history = await prisma.message.findMany({
-			where: { userId },
-			orderBy: { createdAt: 'asc' },
-			include: { user: true },
-		});
+		const history = await findAllMessages(userId);
 
-		const machines = await prisma.machine.findMany({
-			include: {
-				statuses: {
-					include: {
-						machineAnalysis: true,
-					},
-				},
-				tickets: true,
-			},
-		});
+		const machines = await findAllMachinesWithRelations();
 
 		socket.send(
 			JSON.stringify({
@@ -46,43 +36,7 @@ export function initializeChatWebSocket(server: any) {
 				data: { role: 'USER', content, userId },
 			});
 
-			const machineContext = machines
-				.map((m) => {
-					const lastStatus = m.statuses?.[0];
-					const lastAnalysis = lastStatus?.machineAnalysis?.[0];
-					const relatedTickets = m.tickets;
-
-					const failures =
-						relatedTickets
-							.filter((t) => t.status !== 'RESOLVED')
-							.map((t) => `[#${t.ticketNumber}] ${t.problem} (${t.status})`)
-							.join('\n') || '-';
-
-					return `
-						🔧 MACHINE INFO
-						• Name: ${m.name}
-						• Product ID: ${m.productId}
-						• Last Update: ${lastStatus?.recordedAt.toISOString() ?? '-'}
-
-						📊 SENSOR METRICS (Latest)
-						• Air Temperature: ${lastStatus?.airTemperature ?? '-'} °C
-						• Process Temperature: ${lastStatus?.processTemperature ?? '-'} °C
-						• Rotational Speed: ${lastStatus?.rotationalSpeed ?? '-'} RPM
-						• Torque: ${lastStatus?.torque ?? '-'} Nm
-						• Tool Wear: ${lastStatus?.toolWear ?? '-'} minutes
-						• Target: ${lastStatus?.target ?? '-'}
-
-						🧠 AI ANALYSIS (Latest)
-						• Health Score: ${lastAnalysis?.healthScore ?? '-'} / 100
-						• Risk Probability: ${(lastAnalysis?.riskProbability ?? 0) * 100}% Chance
-						• Status: ${lastAnalysis?.status ?? 'UNKNOWN'}
-						• Diagnosis: ${lastAnalysis?.diagnosis ?? '-'}
-
-						⚠️ OPEN TICKETS
-						${failures}
-						`;
-				})
-				.join('\n\n====================\n\n');
+			const machineContext = await getContextMessagesService(machines);
 
 			const aiReply = await generateAgentResponseWithContext(content, machineContext);
 

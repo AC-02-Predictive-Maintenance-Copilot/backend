@@ -5,19 +5,19 @@ import { createTicketService, deleteTicketService, findTicketByIdService, findTi
 
 export const getTicketHandler = async (_: Request, res: Response) => {
 	const tickets = await findAllTickets();
-	return successRes({ res, message: 'succses', data: { tickets } });
+	return successRes({ res, message: 'success', data: { tickets } });
 };
 
 export const getTicketByIdHandler = async (req: Request, res: Response) => {
 	const { id } = req.params;
 	const ticket = await findTicketByIdService(id);
-	return successRes({ res, message: 'succses', data: { ticket } });
+	return successRes({ res, message: 'success', data: { ticket } });
 };
 
 export const getTicketByMachineIdHandler = async (req: Request, res: Response) => {
 	const { machineId } = req.params;
 	const tickets = await findTicketsByMachineIdService(machineId);
-	return successRes({ res, message: 'succses', data: { tickets } });
+	return successRes({ res, message: 'success', data: { tickets } });
 };
 
 export const createTicketHandler = async (req: Request, res: Response) => {

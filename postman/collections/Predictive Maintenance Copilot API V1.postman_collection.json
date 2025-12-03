@@ -1661,6 +1661,90 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Chat",
+			"item": [
+				{
+					"name": "Get Last 100 Messages",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 200 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.data).to.be.an('object');\r",
+									"    pm.expect(responseJson.data.messages).to.be.an('array');\r",
+									"\r",
+									"    if (responseJson.data?.messages?.length) {\r",
+									"        responseJson.data.messages.forEach((m) => {\r",
+									"            pm.expect(m.id).to.be.ok;\r",
+									"            pm.expect(m.role).to.be.ok;\r",
+									"            pm.expect(m.content).to.be.ok;\r",
+									"        });\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/chat",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"chat"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
@@ -1683,28 +1767,6 @@
 					""
 				]
 			}
-		}
-	],
-	"variable": [
-		{
-			"key": "BASE_URL",
-			"value": "https://backend-ruddy-eta.vercel.app/api/v1"
-		},
-		{
-			"key": "ACCESS_TOKEN",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MzA1NzU5ZjYzMjg4NjY2MmJiZjJjNCIsImVtYWlsIjoiemFjaHJpZUBnbWFpbC5jb20iLCJpYXQiOjE3NjQ3NzU3OTUsImV4cCI6MTc2NDg2MjE5NX0.DvEHZuwis0bErov5CcOVixF9DGTDF0ESRHNHJfYWraQ"
-		},
-		{
-			"key": "MACHINE_ID",
-			"value": "693057a7f632886662bbf2c5"
-		},
-		{
-			"key": "STATUS_ID",
-			"value": "693057e8f632886662bbf2c6"
-		},
-		{
-			"key": "TICKET_ID",
-			"value": "TK-001"
 		}
 	]
 }
