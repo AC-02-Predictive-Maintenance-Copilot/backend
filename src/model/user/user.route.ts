@@ -7,8 +7,8 @@ const router = Router();
 router.use(requireAdmin);
 router.get('/', getAllUsersHandler);
 router.get('/:id', getUserByIdHandler);
-router.patch('/verify/:id', verifyUserHandler);
-router.patch('/unverify/:id', unverifyUserHandler);
+router.patch('/:id/verify', verifyUserHandler);
+router.patch('/:id/unverify', unverifyUserHandler);
 router.delete('/:id', deleteUserHandler);
 
 export default router;
