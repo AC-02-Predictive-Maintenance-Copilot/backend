@@ -525,6 +525,9 @@ Authorization: Bearer <token>
       "target": 1,
       "failureType": null,
       "recordedAt": "2025-11-15T10:00:00.000Z"
+    },
+    "analysis": {
+      ...
     }
   }
 }

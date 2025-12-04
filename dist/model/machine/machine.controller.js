@@ -106,7 +106,28 @@ const createStatusHandler = async (req, res) => {
         target,
         failureType,
     });
-    return (0, response_1.successRes)({ res, message: 'Berhasil menambahkan status baru', data: { status }, status: 201 });
+    const diagnosis = await (0, fastapi_service_1.checkMachineWithFastAPI)({
+        air_temp: airTemperature,
+        process_temp: processTemperature,
+        rpm: rotationalSpeed,
+        torque,
+        tool_wear: toolWear,
+        type,
+    });
+    const agentMessage = await (0, agent_service_1.generateAgentResponse)(diagnosis.llm_prompt);
+    if (!agentMessage) {
+        return (0, response_1.errorRes)({
+            res,
+            status: 500,
+            message: 'Gagal menghasilkan analisis dari AI',
+        });
+    }
+    const analysis = await (0, machine_repository_1.saveMachineAnalysis)({
+        statusId: status.id,
+        diagnosis,
+        agentMessage,
+    });
+    return (0, response_1.successRes)({ res, message: 'Berhasil menambahkan status baru', data: { status, analysis }, status: 201 });
 };
 exports.createStatusHandler = createStatusHandler;
 const updateStatusHandler = async (req, res) => {
@@ -131,7 +152,28 @@ const updateStatusHandler = async (req, res) => {
         target,
         failureType,
     });
-    return (0, response_1.successRes)({ res, data: { status }, message: 'Data status berhasil diperbarui' });
+    const diagnosis = await (0, fastapi_service_1.checkMachineWithFastAPI)({
+        air_temp: airTemperature,
+        process_temp: processTemperature,
+        rpm: rotationalSpeed,
+        torque,
+        tool_wear: toolWear,
+        type,
+    });
+    const agentMessage = await (0, agent_service_1.generateAgentResponse)(diagnosis.llm_prompt);
+    if (!agentMessage) {
+        return (0, response_1.errorRes)({
+            res,
+            status: 500,
+            message: 'Gagal menghasilkan analisis dari AI',
+        });
+    }
+    const analysis = await (0, machine_repository_1.saveMachineAnalysis)({
+        statusId: status.id,
+        diagnosis,
+        agentMessage,
+    });
+    return (0, response_1.successRes)({ res, data: { status, analysis }, message: 'Data status berhasil diperbarui' });
 };
 exports.updateStatusHandler = updateStatusHandler;
 const deleteStatusHandler = async (req, res) => {
