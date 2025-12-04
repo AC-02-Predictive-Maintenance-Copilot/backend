@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import http from 'http';
+import http, { get } from 'http';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -7,13 +7,14 @@ import morgan from 'morgan';
 import { router } from './routes/index';
 import { errorHandler } from './middleware/errorHandler';
 import { initializeChatWebSocket } from './websocket/chat.gateway';
+import { getAllowedOrigins } from './utils/cors';
 
 const app = express();
 const port = process.env.PORT;
 
 app.set('trust proxy', true);
 app.use(helmet());
-app.use(cors({ origin: process.env.CORS_ORIGIN?.split(',') || true }));
+app.use(cors({ origin: getAllowedOrigins() }));
 app.use(express.json({ limit: '1mb' }));
 app.use(morgan('dev'));
 
