@@ -17,13 +17,13 @@ export const findAllUsers = async () => await prisma.user.findMany({ where: { ro
 
 export const findUserById = async (userId: string) =>
 	await prisma.user.findUnique({
-		where: { id: userId },
+		where: { id: userId, role: ERole.ENGINEER },
 		select: userSelect,
 	});
 
 export const verifyUser = async (userId: string) => {
 	return prisma.user.update({
-		where: { id: userId },
+		where: { id: userId, role: ERole.ENGINEER },
 		data: {
 			isVerified: true,
 		},
@@ -33,7 +33,7 @@ export const verifyUser = async (userId: string) => {
 
 export const unverifyUser = async (userId: string) => {
 	return prisma.user.update({
-		where: { id: userId },
+		where: { id: userId, role: ERole.ENGINEER },
 		data: {
 			isVerified: false,
 		},
@@ -43,6 +43,6 @@ export const unverifyUser = async (userId: string) => {
 
 export const deleteUserById = async (userId: string) =>
 	await prisma.user.delete({
-		where: { id: userId },
+		where: { id: userId, role: ERole.ENGINEER },
 		select: userSelect,
 	});

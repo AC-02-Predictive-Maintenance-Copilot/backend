@@ -166,6 +166,18 @@ PORT diambil dari `process.env.PORT`.
 
 ---
 
+## **🎫 8. User (Only Admin can Access)**
+
+| Method | Endpoint                        | Deskripsi                        |
+| ------ | ------------------------------- | -------------------------------- |
+| GET    | `/api/v1/users`                 | Get semua pengguna engineer      |
+| GET    | `/api/v1/users/:id`             | Get pengguna by id               |
+| PATCH  | `/api/v1/users/:id/verify`      | Verifikasi pengguna by id        |
+| PATCH  | `/api/v1/users/:id/unverify`    | Batal verifikasi pengguna by id  |
+| DELETE | `/api/v1/users/:id`             | Delete pengguna berdasarkan id   |
+
+---
+
 # 📘 **Endpoint Detail & Response Lengkap**
 
 ---
@@ -777,6 +789,101 @@ Contoh error dari server:
 ## **7.4 Delete Message By ID**
 
 ### DELETE `/api/v1/chat/:id`
+
+---
+
+# 8) 🛠️ **Users API**
+
+## **8.1 Get All Users**
+
+### GET `/api/v1/users`
+
+#### Response
+
+```json
+{
+  "data": {
+    "users": [
+      ...
+    ]
+  }
+}
+```
+
+---
+
+## **8.2 Get User By ID**
+
+### GET `/api/v1/users/:id`
+
+#### Response
+
+```json
+{
+  "data": {
+    "user": {
+      ...
+    }
+  }
+}
+```
+
+---
+
+## **8.3 Verify User By ID**
+
+### PATCH `/api/v1/users/:id/verify`
+
+#### Response
+
+```json
+{
+  "message": "Berhasil memverifikasi pengguna",
+  "data": {
+    "user": {
+      ...
+    }
+  }
+}
+```
+
+---
+
+## **8.4 Unverify User By ID**
+
+### PATCH `/api/v1/users/:id/unverify`
+
+#### Response
+
+```json
+{
+  "message": "Berhasil membatalkan verifikasi pengguna",
+  "data": {
+    "user": {
+      ...
+    }
+  }
+}
+```
+
+---
+
+## **8.5 Delete User By ID**
+
+### DELETE `/api/v1/users/:id`
+
+#### Response
+
+```json
+{
+  "message": "Data pengguna berhasil dihapus",
+  "data": {
+    "user": {
+      ...
+    }
+  }
+}
+```
 
 ---
 
