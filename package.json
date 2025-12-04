@@ -10,7 +10,8 @@
 		"lint": "eslint .",
 		"prisma:generate": "prisma generate",
 		"prisma:push": "prisma db push",
-		"postinstall": "prisma generate"
+		"postinstall": "prisma generate",
+		"seed": "ts-node prisma/seeds/user.seed.ts"
 	},
 	"keywords": [],
 	"author": "",
