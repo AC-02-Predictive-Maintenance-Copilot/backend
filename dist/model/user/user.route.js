@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const validate_1 = require("../../middleware/validate");
+const user_validator_1 = require("./user.validator");
+const user_controller_1 = require("./user.controller");
+const router = (0, express_1.Router)();
+router.get('/', user_controller_1.getTicketHandler);
+router.get('/:id', user_controller_1.getTicketByIdHandler);
+router.post('/', (0, validate_1.validateBody)(user_validator_1.ticketSchema), user_controller_1.createTicketHandler);
+router.put('/:id', user_controller_1.updateTicketHandler);
+router.delete('/:id', user_controller_1.deleteTicketHandler);
+exports.default = router;

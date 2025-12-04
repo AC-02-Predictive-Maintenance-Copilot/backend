@@ -61,6 +61,7 @@ export const findStatusByMachineId = async (machineId: string) =>
 	await prisma.machineStatus.findMany({
 		where: { machineId },
 		orderBy: { recordedAt: 'desc' },
+		include: { machineAnalysis: true },
 	});
 
 export const findStatusById = async (id: string) =>
