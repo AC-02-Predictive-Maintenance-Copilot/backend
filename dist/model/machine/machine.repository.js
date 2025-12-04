@@ -59,7 +59,11 @@ exports.findAllStatus = findAllStatus;
 const findStatusByMachineId = async (machineId) => await prisma_1.default.machineStatus.findMany({
     where: { machineId },
     orderBy: { recordedAt: 'desc' },
-    include: { machineAnalysis: true },
+    include: {
+        machineAnalysis: {
+            orderBy: { createdAt: 'desc' },
+        },
+    },
 });
 exports.findStatusByMachineId = findStatusByMachineId;
 const findStatusById = async (id) => await prisma_1.default.machineStatus.findUnique({
