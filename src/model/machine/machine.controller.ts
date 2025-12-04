@@ -129,7 +129,31 @@ export const createStatusHandler = async (req: Request, res: Response) => {
 		failureType,
 	});
 
-	return successRes({ res, message: 'Berhasil menambahkan status baru', data: { status }, status: 201 });
+	const diagnosis = await checkMachineWithFastAPI({
+		air_temp: airTemperature,
+		process_temp: processTemperature,
+		rpm: rotationalSpeed,
+		torque,
+		tool_wear: toolWear,
+		type,
+	});
+	const agentMessage = await generateAgentResponse(diagnosis.llm_prompt);
+
+	if (!agentMessage) {
+		return errorRes({
+			res,
+			status: 500,
+			message: 'Gagal menghasilkan analisis dari AI',
+		});
+	}
+
+	const analysis = await saveMachineAnalysis({
+		statusId: status.id,
+		diagnosis,
+		agentMessage,
+	});
+
+	return successRes({ res, message: 'Berhasil menambahkan status baru', data: { status, analysis }, status: 201 });
 };
 
 export const updateStatusHandler = async (req: Request, res: Response) => {
@@ -158,7 +182,31 @@ export const updateStatusHandler = async (req: Request, res: Response) => {
 		failureType,
 	});
 
-	return successRes({ res, data: { status }, message: 'Data status berhasil diperbarui' });
+	const diagnosis = await checkMachineWithFastAPI({
+		air_temp: airTemperature,
+		process_temp: processTemperature,
+		rpm: rotationalSpeed,
+		torque,
+		tool_wear: toolWear,
+		type,
+	});
+	const agentMessage = await generateAgentResponse(diagnosis.llm_prompt);
+
+	if (!agentMessage) {
+		return errorRes({
+			res,
+			status: 500,
+			message: 'Gagal menghasilkan analisis dari AI',
+		});
+	}
+
+	const analysis = await saveMachineAnalysis({
+		statusId: status.id,
+		diagnosis,
+		agentMessage,
+	});
+
+	return successRes({ res, data: { status, analysis }, message: 'Data status berhasil diperbarui' });
 };
 
 export const deleteStatusHandler = async (req: Request, res: Response) => {
