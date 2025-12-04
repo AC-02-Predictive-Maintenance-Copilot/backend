@@ -35,5 +35,5 @@ const createUser = async (data) => await prisma_1.default.user.create({
     select,
 });
 exports.createUser = createUser;
-const findUserById = async (id) => await prisma_1.default.user.findUnique({ where: { id }, select: { name: true, email: true } });
+const findUserById = async (id) => await prisma_1.default.user.findUnique({ where: { id }, select: { name: true, email: true, role: true } });
 exports.findUserById = findUserById;
