@@ -22,7 +22,7 @@ const loginHandler = async (req, res) => {
         message: 'Login berhasil',
         data: {
             token,
-            user: { id: user.id, name: user.name, email: user.email, role: user.role },
+            user,
         },
     });
 };
