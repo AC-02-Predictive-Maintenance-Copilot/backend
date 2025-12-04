@@ -35,6 +35,7 @@ const loginService = async ({ email, password }) => {
             username: user.username,
             email: user.email,
             role: user.role,
+            isVerified: user.isVerified,
             createdAt: user.createdAt,
         },
         token,

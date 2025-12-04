@@ -35,4 +35,4 @@ export const createUser = async (data: TRegisterInput) =>
 		select,
 	});
 
-export const findUserById = async (id: string) => await prisma.user.findUnique({ where: { id }, select: { name: true, email: true, role: true } });
+export const findUserById = async (id: string) => await prisma.user.findUnique({ where: { id }, select: { name: true, email: true, role: true, isVerified: true } });

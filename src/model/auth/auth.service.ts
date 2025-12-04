@@ -41,6 +41,7 @@ export const loginService = async ({ email, password }: { email: string; passwor
 			username: user.username,
 			email: user.email,
 			role: user.role,
+			isVerified: user.isVerified,
 			createdAt: user.createdAt,
 		},
 		token,
