@@ -1,14 +1,14 @@
 import { Router } from 'express';
-import { validateBody } from '../../middleware/validate';
-import { ticketSchema } from './user.validator';
-import { createTicketHandler, getTicketHandler, updateTicketHandler, deleteTicketHandler, getTicketByIdHandler } from './user.controller';
+import { requireAdmin } from '../../middleware/auth';
+import { deleteUserHandler, getAllUsersHandler, getUserByIdHandler, unverifyUserHandler, verifyUserHandler } from './user.controller';
 
 const router = Router();
 
-router.get('/', getTicketHandler);
-router.get('/:id', getTicketByIdHandler);
-router.post('/', validateBody(ticketSchema), createTicketHandler);
-router.put('/:id', updateTicketHandler);
-router.delete('/:id', deleteTicketHandler);
+router.use(requireAdmin);
+router.get('/', getAllUsersHandler);
+router.get('/:id', getUserByIdHandler);
+router.patch('/verify/:id', verifyUserHandler);
+router.patch('/unverify/:id', unverifyUserHandler);
+router.delete('/:id', deleteUserHandler);
 
 export default router;

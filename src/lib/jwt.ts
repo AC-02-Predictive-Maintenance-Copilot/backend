@@ -13,7 +13,7 @@ export function signToken(payload: string | object | Buffer, expiresIn = '1d'): 
 
 export function verifyToken(token: string) {
 	try {
-		const decoded = jwt.verify(token, JWT_SECRET) as { id: string; email: string };
+		const decoded = jwt.verify(token, JWT_SECRET) as { id: string; email: string; role: string };
 		return decoded;
 	} catch {
 		return null;

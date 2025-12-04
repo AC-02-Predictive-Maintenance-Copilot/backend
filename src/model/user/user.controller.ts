@@ -1,40 +1,32 @@
 import { Request, Response } from 'express';
 import { successRes } from '../../utils/response';
-import { findAllTickets } from './user.repository';
-import { createTicketService, deleteTicketService, findTicketByIdService, findTicketsByMachineIdService, updateTicketService } from './user.service';
+import { deleteUserById, findAllUsers, findUserById, unverifyUser, verifyUser } from './user.repository';
 
-export const getTicketHandler = async (_: Request, res: Response) => {
-	const tickets = await findAllTickets();
-	return successRes({ res, message: 'success', data: { tickets } });
+export const getAllUsersHandler = async (_: Request, res: Response) => {
+	const users = await findAllUsers();
+	return successRes({ res, message: 'success', data: { users } });
 };
 
-export const getTicketByIdHandler = async (req: Request, res: Response) => {
+export const getUserByIdHandler = async (req: Request, res: Response) => {
 	const { id } = req.params;
-	const ticket = await findTicketByIdService(id);
-	return successRes({ res, message: 'success', data: { ticket } });
+	const user = await findUserById(id);
+	return successRes({ res, message: 'success', data: { user } });
 };
 
-export const getTicketByMachineIdHandler = async (req: Request, res: Response) => {
-	const { machineId } = req.params;
-	const tickets = await findTicketsByMachineIdService(machineId);
-	return successRes({ res, message: 'success', data: { tickets } });
-};
-
-export const createTicketHandler = async (req: Request, res: Response) => {
-	const { productId, problem, priority, status, problemDetail, isPublished } = req.body;
-	const ticket = await createTicketService({ data: { productId, problem, priority, status, problemDetail, isPublished } });
-	return successRes({ res, message: 'Berhasil menambahkan tiket baru', data: { ticket }, status: 201 });
-};
-
-export const updateTicketHandler = async (req: Request, res: Response) => {
+export const verifyUserHandler = async (req: Request, res: Response) => {
 	const { id } = req.params;
-	const { productId, problem, priority, status, problemDetail, isPublished } = req.body;
-	const ticket = await updateTicketService({ ticketId: id, data: { productId, problem, priority, status, problemDetail, isPublished } });
-	return successRes({ res, data: { ticket }, message: 'Data tiket berhasil diperbarui' });
+	const user = await verifyUser(id);
+	return successRes({ res, message: 'Berhasil memverifikasi pengguna', data: { user } });
 };
 
-export const deleteTicketHandler = async (req: Request, res: Response) => {
+export const unverifyUserHandler = async (req: Request, res: Response) => {
 	const { id } = req.params;
-	const ticket = await deleteTicketService({ ticketId: id });
-	return successRes({ res, message: 'Data tiket berhasil dihapus', data: { ticket } });
+	const user = await unverifyUser(id);
+	return successRes({ res, message: 'Berhasil membatalkan verifikasi pengguna', data: { user } });
+};
+
+export const deleteUserHandler = async (req: Request, res: Response) => {
+	const { id } = req.params;
+	const user = await deleteUserById(id);
+	return successRes({ res, message: 'Data pengguna berhasil dihapus', data: { user } });
 };

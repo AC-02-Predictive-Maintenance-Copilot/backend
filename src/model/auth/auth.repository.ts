@@ -6,6 +6,8 @@ const select = {
 	name: true,
 	username: true,
 	email: true,
+	role: true,
+	isVerified: true,
 	createdAt: true,
 };
 

@@ -27,13 +27,14 @@ const loginService = async ({ email, password }) => {
     if (!match) {
         throw new httpError_1.HttpError('Password salah', 401);
     }
-    const token = (0, jwt_1.signToken)({ id: user.id, email: user.email });
+    const token = (0, jwt_1.signToken)({ id: user.id, email: user.email, role: user.role });
     return {
         user: {
             id: user.id,
             name: user.name,
             username: user.username,
             email: user.email,
+            role: user.role,
             createdAt: user.createdAt,
         },
         token,

@@ -32,7 +32,7 @@ export const loginService = async ({ email, password }: { email: string; passwor
 		throw new HttpError('Password salah', 401);
 	}
 
-	const token = signToken({ id: user.id, email: user.email });
+	const token = signToken({ id: user.id, email: user.email, role: user.role });
 
 	return {
 		user: {
@@ -40,6 +40,7 @@ export const loginService = async ({ email, password }: { email: string; passwor
 			name: user.name,
 			username: user.username,
 			email: user.email,
+			role: user.role,
 			createdAt: user.createdAt,
 		},
 		token,
