@@ -1,6 +1,12 @@
 import prisma from '../../lib/prisma';
 
 export const getOverview = async () => {
+	const anomalyAnalysis = await prisma.machineAnalysis.findMany({
+		where: { isAnomaly: true },
+		select: { statusId: true },
+	});
+	const anomalyStatusIds = anomalyAnalysis.map((a) => a.statusId);
+
 	const [
 		totalMachines,
 		anomalyMachines,
@@ -26,12 +32,10 @@ export const getOverview = async () => {
 		prisma.machine.count(),
 		prisma.machineStatus.groupBy({
 			by: ['machineId'],
-			_count: true,
 			where: {
-				machineAnalysis: {
-					some: { isAnomaly: true },
-				},
+				id: { in: anomalyStatusIds },
 			},
+			_count: { id: true },
 		}),
 		prisma.machine.count({
 			where: { statuses: { none: {} } },
