@@ -7,18 +7,23 @@ export const findAllMachinesWithRelations = async () =>
 	await prisma.machine.findMany({
 		include: {
 			statuses: {
+				orderBy: { recordedAt: 'desc' },
 				include: {
-					machineAnalysis: true,
+					machineAnalysis: {
+						orderBy: { createdAt: 'desc' },
+					},
 				},
 			},
-			tickets: true,
+			tickets: {
+				orderBy: { createdAt: 'desc' },
+			},
 		},
 	});
 
 export const findMachineById = async (id: string) =>
 	await prisma.machine.findUnique({
 		where: { id },
-		include: { statuses: true },
+		include: { statuses: { orderBy: { recordedAt: 'desc' } } },
 	});
 
 export const findMachineByProductId = async (productId: string) =>
