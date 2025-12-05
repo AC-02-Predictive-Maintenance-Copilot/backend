@@ -7,6 +7,12 @@ export const getOverview = async () => {
 	});
 	const anomalyStatusIds = anomalyAnalysis.map((a) => a.statusId);
 
+	const agg = await prisma.machineStatus.groupBy({
+		by: ['machineId'],
+		_count: { id: true },
+	});
+	const machineIdsWithStatus = agg.map((a) => a.machineId);
+
 	const [
 		totalMachines,
 		anomalyMachines,
@@ -38,7 +44,9 @@ export const getOverview = async () => {
 			_count: { id: true },
 		}),
 		prisma.machine.count({
-			where: { statuses: { none: {} } },
+			where: {
+				id: { notIn: machineIdsWithStatus },
+			},
 		}),
 		prisma.ticket.count({
 			where: { status: { not: 'RESOLVED' } },

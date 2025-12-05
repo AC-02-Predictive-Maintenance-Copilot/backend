@@ -11,6 +11,11 @@ const getOverview = async () => {
         select: { statusId: true },
     });
     const anomalyStatusIds = anomalyAnalysis.map((a) => a.statusId);
+    const agg = await prisma_1.default.machineStatus.groupBy({
+        by: ['machineId'],
+        _count: { id: true },
+    });
+    const machineIdsWithStatus = agg.map((a) => a.machineId);
     const [totalMachines, anomalyMachines, machinesWithoutStatus, activeTickets, totalTickets, openTickets, inProgressTickets, resolvedTickets, lowPriorityTickets, mediumPriorityTickets, highPriorityTickets, totalUsers, unverifiedUsers, adminUsers, engineerUsers, avgHealthScore, failureDetected, totalMessages, recentTickets, recentStatuses,] = await Promise.all([
         prisma_1.default.machine.count(),
         prisma_1.default.machineStatus.groupBy({
@@ -21,7 +26,9 @@ const getOverview = async () => {
             _count: { id: true },
         }),
         prisma_1.default.machine.count({
-            where: { statuses: { none: {} } },
+            where: {
+                id: { notIn: machineIdsWithStatus },
+            },
         }),
         prisma_1.default.ticket.count({
             where: { status: { not: 'RESOLVED' } },
