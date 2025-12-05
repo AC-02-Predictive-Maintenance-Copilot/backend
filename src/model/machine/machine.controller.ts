@@ -1,21 +1,16 @@
 import { Request, Response } from 'express';
-import { successRes, errorRes } from '../../utils/response';
+import { successRes } from '../../utils/response';
+import { createMachine, findAllMachines, findAllStatus } from './machine.repository';
 import {
-	createMachine,
-	findMachineById,
-	findAllMachines,
-	updateMachine,
-	findAllStatus,
-	findStatusByMachineId,
-	createStatus,
-	updateStatus,
-	deleteStatus,
-	findStatusById,
-	saveMachineAnalysis,
-} from './machine.repository';
-import { deleteMachineService } from './machine.service';
-import { checkMachineWithFastAPI } from '../../services/fastapi.service';
-import { generateAgentResponse } from '../../services/agent.service';
+	checkMachineService,
+	createStatusService,
+	deleteMachineService,
+	deleteStatusService,
+	findMachineByIdService,
+	findStatusByMachineIdService,
+	updateMachineService,
+	updateStatusService,
+} from './machine.service';
 
 export const getMachineHandler = async (_: Request, res: Response) => {
 	const machines = await findAllMachines();
@@ -24,10 +19,7 @@ export const getMachineHandler = async (_: Request, res: Response) => {
 
 export const getMachineByIdHandler = async (req: Request, res: Response) => {
 	const { id } = req.params;
-	const machine = await findMachineById(id);
-	if (!machine) {
-		return errorRes({ res, message: 'Mesin tidak ditemukan', status: 404 });
-	}
+	const machine = await findMachineByIdService(id);
 	return successRes({ res, message: 'success', data: { machine } });
 };
 
@@ -41,12 +33,7 @@ export const updateMachineHandler = async (req: Request, res: Response) => {
 	const { id } = req.params;
 	const { productId, name } = req.body;
 
-	const existing = await findMachineById(id);
-	if (!existing) {
-		return errorRes({ res, message: 'Mesin tidak ditemukan', status: 404 });
-	}
-
-	const machine = await updateMachine(id, { productId, name });
+	const machine = await updateMachineService(id, { productId, name });
 	return successRes({ res, data: { machine }, message: 'Data mesin berhasil diperbarui' });
 };
 
@@ -54,7 +41,6 @@ export const deleteMachineHandler = async (req: Request, res: Response) => {
 	const { id } = req.params;
 
 	const machine = await deleteMachineService({ machineId: id });
-
 	return successRes({
 		res,
 		message: 'Data mesin berhasil dihapus',
@@ -66,31 +52,7 @@ export const checkMachineHandler = async (req: Request, res: Response) => {
 	const { statusId } = req.params;
 	const payload = req.body;
 
-	if (!statusId) {
-		return errorRes({
-			res,
-			status: 400,
-			message: 'statusId tidak ditemukan di parameter',
-		});
-	}
-
-	const diagnosis = await checkMachineWithFastAPI(payload);
-	const agentMessage = await generateAgentResponse(diagnosis.llm_prompt);
-
-	if (!agentMessage) {
-		return errorRes({
-			res,
-			status: 500,
-			message: 'Gagal menghasilkan analisis dari AI',
-		});
-	}
-
-	const analysis = await saveMachineAnalysis({
-		statusId,
-		diagnosis,
-		agentMessage,
-	});
-
+	const analysis = await checkMachineService(statusId, payload);
 	return successRes({ res, message: 'success', data: { analysis } });
 };
 
@@ -102,22 +64,14 @@ export const getStatusHandler = async (_: Request, res: Response) => {
 
 export const getStatusByMachineIdHandler = async (req: Request, res: Response) => {
 	const { machineId } = req.params;
-	const statuses = await findStatusByMachineId(machineId);
-	if (!statuses) {
-		return errorRes({ res, message: 'Status mesin tidak ditemukan', status: 404 });
-	}
+	const statuses = await findStatusByMachineIdService(machineId);
 	return successRes({ res, message: 'success', data: { statuses } });
 };
 
 export const createStatusHandler = async (req: Request, res: Response) => {
 	const { machineId, type, airTemperature, processTemperature, rotationalSpeed, torque, toolWear, target, failureType } = req.body;
 
-	const machine = await findMachineById(machineId);
-	if (!machine) {
-		return errorRes({ res, message: 'Mesin tidak ditemukan', status: 404 });
-	}
-
-	const status = await createStatus({
+	const { analysis, status } = await createStatusService({
 		machineId,
 		type,
 		airTemperature,
@@ -128,31 +82,6 @@ export const createStatusHandler = async (req: Request, res: Response) => {
 		target,
 		failureType,
 	});
-
-	const diagnosis = await checkMachineWithFastAPI({
-		air_temp: airTemperature,
-		process_temp: processTemperature,
-		rpm: rotationalSpeed,
-		torque,
-		tool_wear: toolWear,
-		type,
-	});
-	const agentMessage = await generateAgentResponse(diagnosis.llm_prompt);
-
-	if (!agentMessage) {
-		return errorRes({
-			res,
-			status: 500,
-			message: 'Gagal menghasilkan analisis dari AI',
-		});
-	}
-
-	const analysis = await saveMachineAnalysis({
-		statusId: status.id,
-		diagnosis,
-		agentMessage,
-	});
-
 	return successRes({ res, message: 'Berhasil menambahkan status baru', data: { status, analysis }, status: 201 });
 };
 
@@ -160,17 +89,7 @@ export const updateStatusHandler = async (req: Request, res: Response) => {
 	const { id } = req.params;
 	const { machineId, type, airTemperature, processTemperature, rotationalSpeed, torque, toolWear, target, failureType } = req.body;
 
-	const machine = await findMachineById(machineId);
-	if (!machine) {
-		return errorRes({ res, message: 'Mesin tidak ditemukan', status: 404 });
-	}
-
-	const existing = await findStatusById(id);
-	if (!existing) {
-		return errorRes({ res, message: 'Status tidak ditemukan', status: 404 });
-	}
-
-	const status = await updateStatus(id, {
+	const { analysis, status } = await updateStatusService(id, {
 		machineId,
 		type,
 		airTemperature,
@@ -181,44 +100,13 @@ export const updateStatusHandler = async (req: Request, res: Response) => {
 		target,
 		failureType,
 	});
-
-	const diagnosis = await checkMachineWithFastAPI({
-		air_temp: airTemperature,
-		process_temp: processTemperature,
-		rpm: rotationalSpeed,
-		torque,
-		tool_wear: toolWear,
-		type,
-	});
-	const agentMessage = await generateAgentResponse(diagnosis.llm_prompt);
-
-	if (!agentMessage) {
-		return errorRes({
-			res,
-			status: 500,
-			message: 'Gagal menghasilkan analisis dari AI',
-		});
-	}
-
-	const analysis = await saveMachineAnalysis({
-		statusId: status.id,
-		diagnosis,
-		agentMessage,
-	});
-
 	return successRes({ res, data: { status, analysis }, message: 'Data status berhasil diperbarui' });
 };
 
 export const deleteStatusHandler = async (req: Request, res: Response) => {
 	const { id } = req.params;
 
-	const existing = await findStatusById(id);
-	if (!existing) {
-		return errorRes({ res, message: 'Status tidak ditemukan', status: 404 });
-	}
-
-	const status = await deleteStatus(id);
-
+	const status = await deleteStatusService(id);
 	return successRes({
 		res,
 		message: 'Data status berhasil dihapus',

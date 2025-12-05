@@ -24,6 +24,26 @@ export const validateBody = (schema: ZodTypeAny) => (req: Request, res: Response
 	}
 };
 
+export const validateParams = (schema: ZodTypeAny) => (req: Request, res: Response, next: NextFunction) => {
+	try {
+		req.params = schema.parse(req.params) as any;
+		return next();
+	} catch (err) {
+		if (err instanceof ZodError) {
+			return errorRes({
+				res,
+				message: 'Validation error',
+				errors: err.issues.map((e) => ({
+					path: e.path.join('.'),
+					message: e.message,
+				})),
+				status: 400,
+			});
+		}
+		return errorRes({ res, message: 'Unexpected validation error', status: 500 });
+	}
+};
+
 type next = (req: Request, res: Response, id: string) => any;
 
 export default function validateId(next: next): (req: Request, res: Response) => any {
