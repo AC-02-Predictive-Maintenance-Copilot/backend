@@ -4,6 +4,7 @@ import machineRouter from '../model/machine/machine.route';
 import ticketRouter from '../model/ticket/ticket.route';
 import messageRouter from '../model/message/message.route';
 import userRouter from '../model/user/user.route';
+import overviewRouter from '../model/overview/overview.route';
 import { requireAuth } from '../middleware/auth';
 
 const router = Router();
@@ -19,5 +20,6 @@ router.use('/machines', machineRouter);
 router.use('/tickets', ticketRouter);
 router.use('/chat', messageRouter);
 router.use('/users', userRouter);
+router.use('/overview', overviewRouter);
 
 export { router };

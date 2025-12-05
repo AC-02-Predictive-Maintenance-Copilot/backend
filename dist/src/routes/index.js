@@ -10,6 +10,7 @@ const machine_route_1 = __importDefault(require("../model/machine/machine.route"
 const ticket_route_1 = __importDefault(require("../model/ticket/ticket.route"));
 const message_route_1 = __importDefault(require("../model/message/message.route"));
 const user_route_1 = __importDefault(require("../model/user/user.route"));
+const overview_route_1 = __importDefault(require("../model/overview/overview.route"));
 const auth_1 = require("../middleware/auth");
 const router = (0, express_1.Router)();
 exports.router = router;
@@ -22,3 +23,4 @@ router.use('/machines', machine_route_1.default);
 router.use('/tickets', ticket_route_1.default);
 router.use('/chat', message_route_1.default);
 router.use('/users', user_route_1.default);
+router.use('/overview', overview_route_1.default);

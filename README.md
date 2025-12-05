@@ -178,6 +178,14 @@ PORT diambil dari `process.env.PORT`.
 
 ---
 
+## **🎫 9. Overview**
+
+| Method | Endpoint                        | Deskripsi         |
+| ------ | ------------------------------- | ----------------- |
+| GET    | `/api/v1/overview`              | Get overview      |
+
+---
+
 # 📘 **Endpoint Detail & Response Lengkap**
 
 ---
@@ -880,6 +888,61 @@ Contoh error dari server:
   "data": {
     "user": {
       ...
+    }
+  }
+}
+```
+
+---
+
+# 9) 🛠️ **Overview API**
+
+## **9.1 Get Overview**
+
+### GET `/api/v1/overview`
+
+#### Response
+
+```json
+{
+  "data": {
+    "overview": {
+        "machines": {
+        "total": 0,
+        "anomaly": 0,
+        "noStatus": 0,
+      },
+      "tickets": {
+        "total": 0,
+        "active": 0,
+        "status": {
+          "open": 0,
+          "inProgress": 0,
+          "resolved": 0,
+        },
+        "priority": {
+          "low": 0,
+          "medium": 0,
+          "high": 0,
+        },
+      },
+      "users": {
+        "total": 0,
+        "unverified": 0,
+        "admin": 0,
+        "engineer": 0,
+      },
+      "health": {
+        "avgScore": 0,
+        "failuresDetected": 0,
+      },
+      "messages": {
+        "total": 0,
+      },
+      "recent": {
+        "tickets": 0,
+        "statuses": 0,
+      },
     }
   }
 }
