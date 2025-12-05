@@ -6,16 +6,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getOverview = void 0;
 const prisma_1 = __importDefault(require("../../lib/prisma"));
 const getOverview = async () => {
+    const anomalyAnalysis = await prisma_1.default.machineAnalysis.findMany({
+        where: { isAnomaly: true },
+        select: { statusId: true },
+    });
+    const anomalyStatusIds = anomalyAnalysis.map((a) => a.statusId);
     const [totalMachines, anomalyMachines, machinesWithoutStatus, activeTickets, totalTickets, openTickets, inProgressTickets, resolvedTickets, lowPriorityTickets, mediumPriorityTickets, highPriorityTickets, totalUsers, unverifiedUsers, adminUsers, engineerUsers, avgHealthScore, failureDetected, totalMessages, recentTickets, recentStatuses,] = await Promise.all([
         prisma_1.default.machine.count(),
         prisma_1.default.machineStatus.groupBy({
             by: ['machineId'],
-            _count: true,
             where: {
-                machineAnalysis: {
-                    some: { isAnomaly: true },
-                },
+                id: { in: anomalyStatusIds },
             },
+            _count: { id: true },
         }),
         prisma_1.default.machine.count({
             where: { statuses: { none: {} } },
