@@ -905,44 +905,183 @@ Contoh error dari server:
 
 ```json
 {
+  "message": "success",
   "data": {
     "overview": {
-        "machines": {
-        "total": 0,
+      "machines": {
+        "total": 2,
         "anomaly": 0,
-        "noStatus": 0,
+        "noStatus": 2
       },
       "tickets": {
-        "total": 0,
-        "active": 0,
+        "total": 3,
+        "active": 3,
         "status": {
-          "open": 0,
+          "open": 3,
           "inProgress": 0,
-          "resolved": 0,
+          "resolved": 0
         },
         "priority": {
-          "low": 0,
-          "medium": 0,
-          "high": 0,
-        },
+          "low": 1,
+          "medium": 1,
+          "high": 1
+        }
       },
       "users": {
-        "total": 0,
-        "unverified": 0,
-        "admin": 0,
-        "engineer": 0,
+        "total": 5,
+        "unverified": 3,
+        "admin": 1,
+        "engineer": 4
       },
       "health": {
-        "avgScore": 0,
-        "failuresDetected": 0,
+        "avgScore": 71.66666666666667,
+        "failuresDetected": 4
       },
       "messages": {
-        "total": 0,
+        "total": 4
       },
       "recent": {
-        "tickets": 0,
-        "statuses": 0,
-      },
+        "tickets": [
+          {
+            "id": "TK-003",
+            "ticketNumber": 3,
+            "machineId": "69310a19c25309ff72605c82",
+            "problem": "QQQQQQQQ",
+            "priority": "MEDIUM",
+            "status": "OPEN",
+            "problemDetail": "jhgjhgjhjhgj",
+            "isPublished": true,
+            "createdAt": "2025-12-05T08:17:41.079Z",
+            "updatedAt": "2025-12-05T08:17:41.079Z"
+          },
+          {
+            "id": "TK-002",
+            "ticketNumber": 2,
+            "machineId": "693057a7f632886662bbf2c5",
+            "problem": "Tes ticket 123",
+            "priority": "LOW",
+            "status": "OPEN",
+            "problemDetail": "Lorem ipsum",
+            "isPublished": true,
+            "createdAt": "2025-12-04T03:38:33.565Z",
+            "updatedAt": "2025-12-04T04:05:24.324Z"
+          },
+          {
+            "id": "TK-001",
+            "ticketNumber": 1,
+            "machineId": "693057a7f632886662bbf2c5",
+            "problem": "Mesin mengalami suara berisik.",
+            "priority": "HIGH",
+            "status": "OPEN",
+            "problemDetail": "Mesin mengalami suara berisik.",
+            "isPublished": true,
+            "createdAt": "2025-12-03T16:15:25.662Z",
+            "updatedAt": "2025-12-05T08:19:26.963Z"
+          }
+        ],
+        "statuses": [
+          {
+            "id": "69310e2beeac270ba5ed9a4d",
+            "machineId": "69310a19c25309ff72605c82",
+            "type": "M",
+            "airTemperature": 99,
+            "processTemperature": 99,
+            "rotationalSpeed": 999,
+            "torque": 99,
+            "toolWear": 99,
+            "target": 0,
+            "failureType": "999",
+            "recordedAt": "2025-12-04T04:29:31.577Z",
+            "machine": {
+              "id": "69310a19c25309ff72605c82",
+              "productId": "100",
+              "name": "Mesin 100",
+              "createdAt": "2025-12-04T04:12:09.501Z",
+              "updatedAt": "2025-12-04T04:12:09.501Z"
+            }
+          },
+          {
+            "id": "69310dd301bd7a2f30175f54",
+            "machineId": "69310a19c25309ff72605c82",
+            "type": "M",
+            "airTemperature": 77,
+            "processTemperature": 77,
+            "rotationalSpeed": 77,
+            "torque": 77,
+            "toolWear": 77,
+            "target": 1,
+            "failureType": "hgh",
+            "recordedAt": "2025-12-04T04:28:03.928Z",
+            "machine": {
+              "id": "69310a19c25309ff72605c82",
+              "productId": "100",
+              "name": "Mesin 100",
+              "createdAt": "2025-12-04T04:12:09.501Z",
+              "updatedAt": "2025-12-04T04:12:09.501Z"
+            }
+          },
+          {
+            "id": "69310a39c25309ff72605c83",
+            "machineId": "69310a19c25309ff72605c82",
+            "type": "H",
+            "airTemperature": 11,
+            "processTemperature": 11,
+            "rotationalSpeed": 11,
+            "torque": 11,
+            "toolWear": 11,
+            "target": 1,
+            "failureType": "Power Failure",
+            "recordedAt": "2025-12-04T04:12:41.014Z",
+            "machine": {
+              "id": "69310a19c25309ff72605c82",
+              "productId": "100",
+              "name": "Mesin 100",
+              "createdAt": "2025-12-04T04:12:09.501Z",
+              "updatedAt": "2025-12-04T04:12:09.501Z"
+            }
+          },
+          {
+            "id": "69310a14c25309ff72605c80",
+            "machineId": "693057a7f632886662bbf2c5",
+            "type": "M",
+            "airTemperature": 300.5,
+            "processTemperature": 310.2,
+            "rotationalSpeed": 1450,
+            "torque": 55.5,
+            "toolWear": 120,
+            "target": 0,
+            "failureType": "",
+            "recordedAt": "2025-12-04T04:12:04.395Z",
+            "machine": {
+              "id": "693057a7f632886662bbf2c5",
+              "productId": "001",
+              "name": "Mesin 001 Updated",
+              "createdAt": "2025-12-03T15:30:47.724Z",
+              "updatedAt": "2025-12-03T15:31:31.765Z"
+            }
+          },
+          {
+            "id": "693057e8f632886662bbf2c6",
+            "machineId": "693057a7f632886662bbf2c5",
+            "type": "normal",
+            "airTemperature": 298.5,
+            "processTemperature": 310.2,
+            "rotationalSpeed": 1500,
+            "torque": 35.4,
+            "toolWear": 12,
+            "target": 1,
+            "failureType": null,
+            "recordedAt": "2025-12-03T15:31:52.476Z",
+            "machine": {
+              "id": "693057a7f632886662bbf2c5",
+              "productId": "001",
+              "name": "Mesin 001 Updated",
+              "createdAt": "2025-12-03T15:30:47.724Z",
+              "updatedAt": "2025-12-03T15:31:31.765Z"
+            }
+          }
+        ]
+      }
     }
   }
 }
