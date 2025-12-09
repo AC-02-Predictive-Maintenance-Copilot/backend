@@ -33,7 +33,7 @@ const getContextMessagesService = async (machines) => {
 
 🧠 AI ANALYSIS (Latest)
 • Health Score: ${lastAnalysis?.healthScore ?? '-'} / 100
-• Risk Probability: ${(lastAnalysis?.riskProbability ?? 0) * 100}% Chance
+• Risk Probability: ${lastAnalysis?.riskProbability ?? 0}% Chance
 • Status: ${lastAnalysis?.status ?? 'UNKNOWN'}
 • Diagnosis: ${lastAnalysis?.diagnosis ?? '-'}
 
