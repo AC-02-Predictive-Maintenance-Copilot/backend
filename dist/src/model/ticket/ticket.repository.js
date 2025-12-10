@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.findLastTicket = exports.deleteTicketsByMachineId = exports.deleteTicketById = exports.updateTicket = exports.createTicket = exports.findTicketsByMachineId = exports.findTicketById = exports.findAllTickets = void 0;
 const prisma_1 = __importDefault(require("../../lib/prisma"));
-const findAllTickets = async () => await prisma_1.default.ticket.findMany({ include: { machine: true } });
+const findAllTickets = async () => await prisma_1.default.ticket.findMany({ include: { machine: true }, orderBy: { createdAt: 'desc' } });
 exports.findAllTickets = findAllTickets;
 const findTicketById = async (ticketId) => await prisma_1.default.ticket.findUnique({
     where: { id: ticketId },
@@ -15,6 +15,7 @@ exports.findTicketById = findTicketById;
 const findTicketsByMachineId = async (machineId) => await prisma_1.default.ticket.findMany({
     where: { machineId },
     include: { machine: true },
+    orderBy: { createdAt: 'desc' },
 });
 exports.findTicketsByMachineId = findTicketsByMachineId;
 const createTicket = async ({ id, ticketNumber, data }) => {

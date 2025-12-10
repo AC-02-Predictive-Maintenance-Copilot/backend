@@ -1,7 +1,7 @@
 import prisma from '../../lib/prisma';
 import { TTicketInput } from './ticket.validator';
 
-export const findAllTickets = async () => await prisma.ticket.findMany({ include: { machine: true } });
+export const findAllTickets = async () => await prisma.ticket.findMany({ include: { machine: true }, orderBy: { createdAt: 'desc' } });
 
 export const findTicketById = async (ticketId: string) =>
 	await prisma.ticket.findUnique({
@@ -13,6 +13,7 @@ export const findTicketsByMachineId = async (machineId: string) =>
 	await prisma.ticket.findMany({
 		where: { machineId },
 		include: { machine: true },
+		orderBy: { createdAt: 'desc' },
 	});
 
 export const createTicket = async ({ id, ticketNumber, data }: { id: string; ticketNumber: number; data: TTicketInput }) => {
