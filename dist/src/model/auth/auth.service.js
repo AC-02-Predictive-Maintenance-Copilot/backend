@@ -23,8 +23,13 @@ const loginService = async ({ email, password }) => {
     if (!user || !user.password) {
         throw new httpError_1.HttpError('Email tidak ditemukan', 401);
     }
+    const match = await (0, bcrypt_1.comparePassword)({ password, hash: user.password });
+    if (!match) {
+        throw new httpError_1.HttpError('Password salah', 401);
+    }
     if (!user.isVerified) {
         return {
+            message: 'User belum terverifikasi',
             user: {
                 id: user.id,
                 name: user.name,
@@ -37,12 +42,9 @@ const loginService = async ({ email, password }) => {
             token: null,
         };
     }
-    const match = await (0, bcrypt_1.comparePassword)({ password, hash: user.password });
-    if (!match) {
-        throw new httpError_1.HttpError('Password salah', 401);
-    }
     const token = (0, jwt_1.signToken)({ id: user.id, email: user.email, role: user.role });
     return {
+        message: 'Login berhasil',
         user: {
             id: user.id,
             name: user.name,

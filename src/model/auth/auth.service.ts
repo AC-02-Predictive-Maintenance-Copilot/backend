@@ -26,8 +26,15 @@ export const loginService = async ({ email, password }: { email: string; passwor
 		throw new HttpError('Email tidak ditemukan', 401);
 	}
 
+	const match = await comparePassword({ password, hash: user.password });
+
+	if (!match) {
+		throw new HttpError('Password salah', 401);
+	}
+
 	if (!user.isVerified) {
 		return {
+			message: 'User belum terverifikasi',
 			user: {
 				id: user.id,
 				name: user.name,
@@ -41,15 +48,10 @@ export const loginService = async ({ email, password }: { email: string; passwor
 		};
 	}
 
-	const match = await comparePassword({ password, hash: user.password });
-
-	if (!match) {
-		throw new HttpError('Password salah', 401);
-	}
-
 	const token = signToken({ id: user.id, email: user.email, role: user.role });
 
 	return {
+		message: 'Login berhasil',
 		user: {
 			id: user.id,
 			name: user.name,
