@@ -115,6 +115,7 @@ const updateStatusService = async (statusId, data) => {
 exports.updateStatusService = updateStatusService;
 const deleteStatusService = async (statusId) => {
     await (0, exports.findStatusByIdService)(statusId);
+    await (0, machine_repository_1.deleteAnalysis)(statusId);
     return await (0, machine_repository_1.deleteStatus)(statusId);
 };
 exports.deleteStatusService = deleteStatusService;

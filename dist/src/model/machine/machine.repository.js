@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteStatusesByMachineId = exports.deleteStatus = exports.updateStatus = exports.createStatus = exports.findStatusById = exports.findStatusByMachineId = exports.findAllStatus = exports.saveMachineAnalysis = exports.deleteMachine = exports.updateMachine = exports.createMachine = exports.findMachineByProductId = exports.findMachineById = exports.findAllMachinesWithRelations = exports.findAllMachines = void 0;
+exports.deleteAnalysis = exports.deleteStatusesByMachineId = exports.deleteStatus = exports.updateStatus = exports.createStatus = exports.findStatusById = exports.findStatusByMachineId = exports.findAllStatus = exports.saveMachineAnalysis = exports.deleteMachine = exports.updateMachine = exports.createMachine = exports.findMachineByProductId = exports.findMachineById = exports.findAllMachinesWithRelations = exports.findAllMachines = void 0;
 const prisma_1 = __importDefault(require("../../lib/prisma"));
 const findAllMachines = async () => await prisma_1.default.machine.findMany({ orderBy: { createdAt: 'desc' } });
 exports.findAllMachines = findAllMachines;
@@ -90,3 +90,7 @@ const deleteStatusesByMachineId = async (machineId) => await prisma_1.default.ma
     where: { machineId },
 });
 exports.deleteStatusesByMachineId = deleteStatusesByMachineId;
+const deleteAnalysis = async (statusId) => await prisma_1.default.machineAnalysis.deleteMany({
+    where: { statusId },
+});
+exports.deleteAnalysis = deleteAnalysis;
