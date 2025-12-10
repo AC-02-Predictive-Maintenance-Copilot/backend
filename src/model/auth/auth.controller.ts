@@ -24,6 +24,7 @@ export const loginHandler = async (req: Request, res: Response) => {
 			token,
 			user,
 		},
+		status: !token ? 401 : 200,
 	});
 };
 
