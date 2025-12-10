@@ -23,6 +23,20 @@ const loginService = async ({ email, password }) => {
     if (!user || !user.password) {
         throw new httpError_1.HttpError('Email tidak ditemukan', 401);
     }
+    if (!user.isVerified) {
+        return {
+            user: {
+                id: user.id,
+                name: user.name,
+                username: user.username,
+                email: user.email,
+                role: user.role,
+                isVerified: user.isVerified,
+                createdAt: user.createdAt,
+            },
+            token: null,
+        };
+    }
     const match = await (0, bcrypt_1.comparePassword)({ password, hash: user.password });
     if (!match) {
         throw new httpError_1.HttpError('Password salah', 401);

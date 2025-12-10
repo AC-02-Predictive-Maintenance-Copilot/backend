@@ -26,6 +26,21 @@ export const loginService = async ({ email, password }: { email: string; passwor
 		throw new HttpError('Email tidak ditemukan', 401);
 	}
 
+	if (!user.isVerified) {
+		return {
+			user: {
+				id: user.id,
+				name: user.name,
+				username: user.username,
+				email: user.email,
+				role: user.role,
+				isVerified: user.isVerified,
+				createdAt: user.createdAt,
+			},
+			token: null,
+		};
+	}
+
 	const match = await comparePassword({ password, hash: user.password });
 
 	if (!match) {
