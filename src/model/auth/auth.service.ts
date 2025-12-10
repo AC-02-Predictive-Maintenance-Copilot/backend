@@ -28,6 +28,7 @@ export const loginService = async ({ email, password }: { email: string; passwor
 
 	if (!user.isVerified) {
 		return {
+			message: 'User belum terverifikasi',
 			user: {
 				id: user.id,
 				name: user.name,
@@ -50,6 +51,7 @@ export const loginService = async ({ email, password }: { email: string; passwor
 	const token = signToken({ id: user.id, email: user.email, role: user.role });
 
 	return {
+		message: 'Login berhasil',
 		user: {
 			id: user.id,
 			name: user.name,

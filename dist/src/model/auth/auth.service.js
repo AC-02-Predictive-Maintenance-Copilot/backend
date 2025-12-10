@@ -25,6 +25,7 @@ const loginService = async ({ email, password }) => {
     }
     if (!user.isVerified) {
         return {
+            message: 'User belum terverifikasi',
             user: {
                 id: user.id,
                 name: user.name,
@@ -43,6 +44,7 @@ const loginService = async ({ email, password }) => {
     }
     const token = (0, jwt_1.signToken)({ id: user.id, email: user.email, role: user.role });
     return {
+        message: 'Login berhasil',
         user: {
             id: user.id,
             name: user.name,
