@@ -1,7 +1,7 @@
 import prisma from '../../lib/prisma';
 import { TMachineInput, TStatusInput } from './machine.validator';
 
-export const findAllMachines = async () => await prisma.machine.findMany({});
+export const findAllMachines = async () => await prisma.machine.findMany({ orderBy: { createdAt: 'desc' } });
 
 export const findAllMachinesWithRelations = async () =>
 	await prisma.machine.findMany({
