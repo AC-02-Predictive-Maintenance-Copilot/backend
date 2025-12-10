@@ -96,7 +96,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Zachrie\",\r\n    \"username\": \"zachriek\",\r\n    \"email\": \"zachrie@gmail.com\",\r\n    \"password\": \"password\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Zachrie 2\",\r\n    \"username\": \"zachriek2\",\r\n    \"email\": \"zachrie2@gmail.com\",\r\n    \"password\": \"password\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -164,7 +164,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"admin@example.com\",\r\n    \"password\": \"admin123\"\r\n}",
+							"raw": "{\r\n    \"email\": \"zachrie2@gmail.com\",\r\n    \"password\": \"password\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -395,7 +395,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"productId\": \"001\",\r\n    \"name\": \"Mesin 001\"\r\n}",
+							"raw": "{\r\n    \"productId\": \"004\",\r\n    \"name\": \"Mesin 004\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -627,7 +627,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"productId\": \"001\",\r\n    \"name\": \"Mesin 001 Updated\"\r\n}",
+							"raw": "{\r\n    \"productId\": \"004\",\r\n    \"name\": \"Mesin 004 Updated\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1316,7 +1316,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"productId\": \"001\",\r\n    \"priority\": \"LOW\",\r\n    \"status\": \"OPEN\",\r\n    \"problem\": \"Mesin mengalami suara berisik.\",\r\n    \"problemDetail\": \"Mesin mengalami suara berisik.\",\r\n    \"isPublished\": true\r\n}\r\n",
+							"raw": "{\r\n    \"productId\": \"004\",\r\n    \"priority\": \"LOW\",\r\n    \"status\": \"OPEN\",\r\n    \"problem\": \"Mesin mengalami suara berisik.\",\r\n    \"problemDetail\": \"Mesin mengalami suara berisik.\",\r\n    \"isPublished\": true\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1563,7 +1563,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"productId\": \"001\",\r\n    \"priority\": \"LOW\",\r\n    \"status\": \"OPEN\",\r\n    \"problem\": \"Mesin mengalami suara berisik.\",\r\n    \"problemDetail\": \"Mesin mengalami suara berisik.\",\r\n    \"isPublished\": true\r\n}",
+							"raw": "{\r\n    \"productId\": \"004\",\r\n    \"priority\": \"LOW\",\r\n    \"status\": \"OPEN\",\r\n    \"problem\": \"Mesin mengalami suara berisik.\",\r\n    \"problemDetail\": \"Mesin mengalami suara berisik.\",\r\n    \"isPublished\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1805,7 +1805,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"content\": \"Bagaimana kondisi mesin 001?\"\r\n}",
+							"raw": "{\r\n    \"content\": \"Bagaimana kondisi mesin 004?\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1977,32 +1977,30 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test('it should response 200 status code', () => {\r",
-									"    pm.expect(pm.response).to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"pm.test('response Content-Type header should have application/json value', () => {\r",
-									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"pm.test('it should response 200 status code', () => { \r",
+									"    pm.expect(pm.response).to.have.status(200); \r",
 									"}); \r",
 									"\r",
-									"pm.test('response body should an object', () => {\r",
-									"    const responseJson = pm.response.json();\r",
-									"    pm.expect(responseJson).to.be.an('object');\r",
-									"});\r",
+									"pm.test('response Content-Type header should have application/json value', () => { \r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json'); \r",
+									"}); \r",
 									"\r",
-									"pm.test('response body have correct property and value', () => {\r",
-									"    const responseJson = pm.response.json();\r",
+									"pm.test('response body should an object', () => { \r",
+									"    const responseJson = pm.response.json(); \r",
+									"    pm.expect(responseJson).to.be.an('object'); \r",
+									"}); \r",
 									"\r",
-									"    pm.expect(responseJson.data).to.be.an('object');\r",
-									"    pm.expect(responseJson.data.users).to.be.an('array');\r",
-									"\r",
-									"    if (responseJson.data?.users?.length) {\r",
-									"        responseJson.data.users.forEach((user) => {\r",
-									"            pm.expect(user.id).to.be.ok;\r",
-									"            pm.expect(user.email).to.be.ok;\r",
-									"            pm.expect(user.name).to.be.ok;\r",
-									"        });\r",
-									"    }\r",
+									"pm.test('response body have correct property and value', () => { \r",
+									"    const responseJson = pm.response.json(); \r",
+									"    pm.expect(responseJson.data).to.be.an('object'); \r",
+									"    pm.expect(responseJson.data.users).to.be.an('array'); \r",
+									"    if (responseJson.data?.users?.length) { \r",
+									"        responseJson.data.users.forEach((user) => { \r",
+									"            pm.expect(user.id).to.be.ok; \r",
+									"            pm.expect(user.email).to.be.ok; \r",
+									"            pm.expect(user.name).to.be.ok; \r",
+									"        }); \r",
+									"    } \r",
 									"});"
 								],
 								"type": "text/javascript",
@@ -2037,6 +2035,493 @@
 							],
 							"path": [
 								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 200 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.data).to.be.an('object');\r",
+									"\r",
+									"    const { user } = responseJson.data;\r",
+									"    pm.expect(user).to.be.an('object');\r",
+									"\r",
+									"    pm.expect(user.id).to.be.ok;\r",
+									"    pm.expect(user.email).to.be.ok;\r",
+									"    pm.expect(user.name).to.be.ok;\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/users/{{USER_ID}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"{{USER_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify User By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 200 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.message).to.be.equal('Berhasil memverifikasi pengguna');\r",
+									"    pm.expect(responseJson.data).to.be.an('object');\r",
+									"\r",
+									"    const { user } = responseJson.data;\r",
+									"    pm.expect(user).to.be.an('object');\r",
+									"\r",
+									"    pm.expect(user.id).to.be.ok;\r",
+									"    pm.expect(user.email).to.be.ok;\r",
+									"    pm.expect(user.name).to.be.ok;\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/users/{{USER_ID}}/verify",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"{{USER_ID}}",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unverify User By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 200 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.message).to.be.equal('Berhasil membatalkan verifikasi pengguna');\r",
+									"    pm.expect(responseJson.data).to.be.an('object');\r",
+									"\r",
+									"    const { user } = responseJson.data;\r",
+									"    pm.expect(user).to.be.an('object');\r",
+									"\r",
+									"    pm.expect(user.id).to.be.ok;\r",
+									"    pm.expect(user.email).to.be.ok;\r",
+									"    pm.expect(user.name).to.be.ok;\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/users/{{USER_ID}}/unverify",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"{{USER_ID}}",
+								"unverify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 200 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.message).to.be.equal('Data pengguna berhasil dihapus');\r",
+									"    pm.expect(responseJson.data).to.be.an('object');\r",
+									"\r",
+									"    const { user } = responseJson.data;\r",
+									"    pm.expect(user).to.be.an('object');\r",
+									"\r",
+									"    pm.expect(user.id).to.be.ok;\r",
+									"    pm.expect(user.email).to.be.ok;\r",
+									"    pm.expect(user.name).to.be.ok;\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/users/{{USER_ID}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"{{USER_ID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Overview",
+			"item": [
+				{
+					"name": "Get Overview",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"status code should be 200\", () => {\r",
+									"    pm.expect(pm.response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Content-Type should be application/json\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response structure should match overview format\", () => {\r",
+									"    const json = pm.response.json();\r",
+									"\r",
+									"    pm.expect(json).to.be.an(\"object\");\r",
+									"    pm.expect(json).to.have.property(\"message\", \"success\");\r",
+									"\r",
+									"    pm.expect(json).to.have.property(\"data\");\r",
+									"    pm.expect(json.data).to.be.an(\"object\");\r",
+									"\r",
+									"    pm.expect(json.data).to.have.property(\"overview\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// --------------------------------------------------------\r",
+									"// Validate MACHINES\r",
+									"// --------------------------------------------------------\r",
+									"pm.test(\"overview.machines structure is valid\", () => {\r",
+									"    const m = pm.response.json().data.overview.machines;\r",
+									"\r",
+									"    pm.expect(m).to.have.property(\"total\").that.is.a(\"number\");\r",
+									"    pm.expect(m).to.have.property(\"anomaly\").that.is.a(\"number\");\r",
+									"    pm.expect(m).to.have.property(\"noStatus\").that.is.a(\"number\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// --------------------------------------------------------\r",
+									"// Validate TICKETS SUMMARY\r",
+									"// --------------------------------------------------------\r",
+									"pm.test(\"overview.tickets structure is valid\", () => {\r",
+									"    const t = pm.response.json().data.overview.tickets;\r",
+									"\r",
+									"    pm.expect(t).to.have.property(\"total\").that.is.a(\"number\");\r",
+									"    pm.expect(t).to.have.property(\"active\").that.is.a(\"number\");\r",
+									"\r",
+									"    pm.expect(t).to.have.property(\"status\");\r",
+									"    pm.expect(t.status.open).to.be.a(\"number\");\r",
+									"    pm.expect(t.status.inProgress).to.be.a(\"number\");\r",
+									"    pm.expect(t.status.resolved).to.be.a(\"number\");\r",
+									"\r",
+									"    pm.expect(t).to.have.property(\"priority\");\r",
+									"    pm.expect(t.priority.low).to.be.a(\"number\");\r",
+									"    pm.expect(t.priority.medium).to.be.a(\"number\");\r",
+									"    pm.expect(t.priority.high).to.be.a(\"number\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// --------------------------------------------------------\r",
+									"// Validate HEALTH SUMMARY\r",
+									"// --------------------------------------------------------\r",
+									"pm.test(\"overview.health structure is valid\", () => {\r",
+									"    const h = pm.response.json().data.overview.health;\r",
+									"\r",
+									"    pm.expect(h.avgScore).to.be.a(\"number\");\r",
+									"    pm.expect(h.failuresDetected).to.be.a(\"number\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// --------------------------------------------------------\r",
+									"// Validate MESSAGES SUMMARY\r",
+									"// --------------------------------------------------------\r",
+									"pm.test(\"overview.messages structure is valid\", () => {\r",
+									"    const m = pm.response.json().data.overview.messages;\r",
+									"    pm.expect(m.total).to.be.a(\"number\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// --------------------------------------------------------\r",
+									"// Validate RECENT TICKETS LIST\r",
+									"// --------------------------------------------------------\r",
+									"pm.test(\"recent.tickets list is valid\", () => {\r",
+									"    const tickets = pm.response.json().data.overview.recent.tickets;\r",
+									"\r",
+									"    pm.expect(tickets).to.be.an(\"array\");\r",
+									"\r",
+									"    tickets.forEach(t => {\r",
+									"        pm.expect(t).to.have.property(\"id\").that.is.a(\"string\");\r",
+									"        pm.expect(t).to.have.property(\"ticketNumber\").that.is.a(\"number\");\r",
+									"        pm.expect(t).to.have.property(\"machineId\").that.is.a(\"string\");\r",
+									"\r",
+									"        pm.expect(t).to.have.property(\"problem\").that.is.a(\"string\");\r",
+									"        pm.expect(t).to.have.property(\"priority\").that.is.a(\"string\");\r",
+									"        pm.expect(t).to.have.property(\"status\").that.is.a(\"string\");\r",
+									"        pm.expect(t).to.have.property(\"problemDetail\").that.is.a(\"string\");\r",
+									"\r",
+									"        pm.expect(t).to.have.property(\"isPublished\").that.is.a(\"boolean\");\r",
+									"        pm.expect(t).to.have.property(\"createdAt\").that.is.a(\"string\");\r",
+									"        pm.expect(t).to.have.property(\"updatedAt\").that.is.a(\"string\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// --------------------------------------------------------\r",
+									"// Validate RECENT STATUS LIST + Nested MACHINE object\r",
+									"// --------------------------------------------------------\r",
+									"pm.test(\"recent.statuses list is valid\", () => {\r",
+									"    const statuses = pm.response.json().data.overview.recent.statuses;\r",
+									"\r",
+									"    pm.expect(statuses).to.be.an(\"array\");\r",
+									"\r",
+									"    statuses.forEach(s => {\r",
+									"        pm.expect(s).to.have.property(\"id\").that.is.a(\"string\");\r",
+									"        pm.expect(s).to.have.property(\"machineId\").that.is.a(\"string\");\r",
+									"        pm.expect(s).to.have.property(\"type\").that.is.a(\"string\");\r",
+									"\r",
+									"        pm.expect(s.airTemperature).to.be.a(\"number\");\r",
+									"        pm.expect(s.processTemperature).to.be.a(\"number\");\r",
+									"        pm.expect(s.rotationalSpeed).to.be.a(\"number\");\r",
+									"        pm.expect(s.torque).to.be.a(\"number\");\r",
+									"        pm.expect(s.toolWear).to.be.a(\"number\");\r",
+									"\r",
+									"        pm.expect(s).to.have.property(\"target\");\r",
+									"        pm.expect(s.target === 0 || s.target === 1).to.be.true;\r",
+									"\r",
+									"        pm.expect(s.failureType).to.be.a(\"string\");\r",
+									"        pm.expect(s.recordedAt).to.be.a(\"string\");\r",
+									"\r",
+									"        // Validate nested MACHINE object\r",
+									"        pm.expect(s).to.have.property(\"machine\");\r",
+									"        const m = s.machine;\r",
+									"\r",
+									"        pm.expect(m).to.have.property(\"id\").that.is.a(\"string\");\r",
+									"        pm.expect(m).to.have.property(\"productId\").that.is.a(\"string\");\r",
+									"        pm.expect(m).to.have.property(\"name\").that.is.a(\"string\");\r",
+									"        pm.expect(m).to.have.property(\"createdAt\").that.is.a(\"string\");\r",
+									"        pm.expect(m).to.have.property(\"updatedAt\").that.is.a(\"string\");\r",
+									"    });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/overview",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"overview"
 							]
 						}
 					},
