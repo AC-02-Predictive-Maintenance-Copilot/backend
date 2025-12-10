@@ -95,3 +95,8 @@ export const deleteStatusesByMachineId = async (machineId: string) =>
 	await prisma.machineStatus.deleteMany({
 		where: { machineId },
 	});
+
+export const deleteAnalysis = async (statusId: string) =>
+	await prisma.machineAnalysis.deleteMany({
+		where: { statusId },
+	});

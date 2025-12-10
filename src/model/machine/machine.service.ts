@@ -4,6 +4,7 @@ import { HttpError } from '../../utils/httpError';
 import { deleteTicketsByMachineId } from '../ticket/ticket.repository';
 import {
 	createStatus,
+	deleteAnalysis,
 	deleteMachine,
 	deleteStatus,
 	deleteStatusesByMachineId,
@@ -158,5 +159,6 @@ export const updateStatusService = async (
 
 export const deleteStatusService = async (statusId: string) => {
 	await findStatusByIdService(statusId);
+	await deleteAnalysis(statusId);
 	return await deleteStatus(statusId);
 };
