@@ -22,9 +22,9 @@ postman/collections/Predictive Maintenance Copilot API V1.postman_collection.jso
 
 * **Node.js + Express** – Backend server
 * **TypeScript** – Typed JavaScript
-* **Prisma ORM** – Akses dan schema database PostgreSQL
+* **Prisma ORM** – Akses dan schema database MongoDB
 * **Zod** – Validasi request
-* **PostgreSQL** – Database utama
+* **MongoDB** – Database utama
 
 ---
 
