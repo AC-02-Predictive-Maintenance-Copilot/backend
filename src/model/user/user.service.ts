@@ -1,4 +1,5 @@
 import { HttpError } from '../../utils/httpError';
+import { deleteAllMessages } from '../message/message.repository';
 import { deleteUserById, findUserById, unverifyUser, verifyUser } from './user.repository';
 
 export const findUserByIdService = async (id: string) => {
@@ -21,5 +22,6 @@ export const unverifyUserService = async (userId: string) => {
 
 export const deleteUserService = async (userId: string) => {
 	await findUserByIdService(userId);
+	await deleteAllMessages(userId);
 	return await deleteUserById(userId);
 };

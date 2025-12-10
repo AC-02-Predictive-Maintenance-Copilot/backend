@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUserService = exports.unverifyUserService = exports.verifyUserService = exports.findUserByIdService = void 0;
 const httpError_1 = require("../../utils/httpError");
+const message_repository_1 = require("../message/message.repository");
 const user_repository_1 = require("./user.repository");
 const findUserByIdService = async (id) => {
     const user = await (0, user_repository_1.findUserById)(id);
@@ -23,6 +24,7 @@ const unverifyUserService = async (userId) => {
 exports.unverifyUserService = unverifyUserService;
 const deleteUserService = async (userId) => {
     await (0, exports.findUserByIdService)(userId);
+    await (0, message_repository_1.deleteAllMessages)(userId);
     return await (0, user_repository_1.deleteUserById)(userId);
 };
 exports.deleteUserService = deleteUserService;
