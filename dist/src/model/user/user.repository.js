@@ -17,7 +17,7 @@ const userSelect = {
     createdAt: true,
     updatedAt: true,
 };
-const findAllUsers = async () => await prisma_1.default.user.findMany({ where: { role: client_1.ERole.ENGINEER }, select: userSelect });
+const findAllUsers = async () => await prisma_1.default.user.findMany({ where: { role: client_1.ERole.ENGINEER }, select: userSelect, orderBy: { createdAt: 'desc' } });
 exports.findAllUsers = findAllUsers;
 const findUserById = async (userId) => await prisma_1.default.user.findUnique({
     where: { id: userId, role: client_1.ERole.ENGINEER },
