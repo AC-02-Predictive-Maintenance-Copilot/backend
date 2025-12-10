@@ -16,10 +16,10 @@ const registerHandler = async (req, res) => {
 exports.registerHandler = registerHandler;
 const loginHandler = async (req, res) => {
     const { email, password } = req.body;
-    const { user, token } = await (0, auth_service_1.loginService)({ email, password });
+    const { user, token, message } = await (0, auth_service_1.loginService)({ email, password });
     return (0, response_1.successRes)({
         res,
-        message: 'Login berhasil',
+        message,
         data: {
             token,
             user,
